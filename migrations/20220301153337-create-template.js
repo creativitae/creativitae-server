@@ -18,6 +18,9 @@ module.exports = {
       isPremium: {
         type: Sequelize.BOOLEAN
       },
+      status: {
+        type: Sequelize.STRING
+      },
       AdminId: {
         type: Sequelize.INTEGER,
         references: {

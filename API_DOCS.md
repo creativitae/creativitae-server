@@ -14,18 +14,19 @@ List of available endpoints :
 
 Routes below need authentication :
 
-8. `GET /public/mytemplates`
-9. `GET /public/mytemplates/:templateId`
+8. `POST /public/mytemplates/:templateId`
+9. `GET /public/mytemplates`
 10. `GET /templates/:templateId`
-11. `GET /public/:userId`
-12. `POST /public/:userId`
-13. `PUT /public/:userId`
+11. `GET /public/mydetail`
+12. `POST /public/mydetail`
+13. `PUT /public/mydetail`
+14. `PATCH /pubilc/:userId`
 
 Routes below need authentication & authorization :
 
-14. `POST /templates`
-15. `PUT /templates/:templateId`
-16. `DELETE /templates/:templateId`
+15. `POST /templates`
+16. `PUT /templates/:templateId`
+17. `PATCH /templates/:templateId`
 
 &nbsp;
 
@@ -53,9 +54,11 @@ _Response (201 - Created):_
         "id": 1,
         "username": "johndoe",
         "email": "johndoe@mail.com",
-        "password": "$2a$10$oEB/0yI8Pmd9tSThkLI52.RWwAxtTl3/5py2YI.UCOCioR7N7MiYe",
+        "password": "$2a$10$ErTU61vANBrLW3ZbpCXa.uPIDwM7EKJPs2qoOo3seZ07R1D4cCKiK",
         "phoneNumber": "08123456789",
-        "address": "Jakarta"
+        "address": "Jakarta",
+        "updatedAt": "2023-03-01T16:36:26.930Z",
+        "createdAt": "2023-03-01T16:36:26.930Z"
     }
 }
 ```
@@ -66,23 +69,27 @@ _Response (400 - Bad Request):_
 {
     "errorsMessages": [
         {
-            "message": "Email must be unique"
+            "message": "Admin name is required"
         },
         // OR
         {
-            "message": "Password is required"
+            "message": "Admin email is required"
         },
         // OR
         {
-            "message": "Password be at least 5 characters long"
+            "message": "Admin password is required"
         },
         // OR
         {
-            "message": "Email is required"
+            "message": "Admin phone number is required"
         },
         // OR
         {
-            "message": "Please insert e-mail format"
+            "message": "Admin address is required"
+        },
+        // OR
+        {
+            "message": "Please insert unique e-mail"
         }
     ]
 }
@@ -107,7 +114,7 @@ _Response (200 - OK):_
 
 ```json
 {
-    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiZW1haWwiOiJlZHVAbWFpbC5jbyIsImlhdCI6MTY3NDk5NDk1NH0.uH5vq9MD3_W0bzuT0Dv-XIH_MUCsJ_BE3LU0u4fer-E",
+    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqb2huZG9lQG1haWwuY29tIiwiaWF0IjoxNjc3Njg4NzM2fQ.ciZ1A3VC9rblvxHWpah8Zpw198pB4HYo7g7rWqwdhc8",
     "id": 1,
     "username": "johndoe"
 }
@@ -155,13 +162,16 @@ _Response (201 - Created):_
 
 ```json
 {
-    "admin": {
+    "customer": {
         "id": 1,
         "username": "johndoe",
         "email": "johndoe@mail.com",
-        "password": "$2a$10$oEB/0yI8Pmd9tSThkLI52.RWwAxtTl3/5py2YI.UCOCioR7N7MiYe",
+        "password": "$2a$10$P5DCpyUwjy.7o4i3LVrwPuAbIK7EooGNpaLwZUs.HDs/5zeTX2kAm",
+        "isPremium": false,
         "phoneNumber": "08123456789",
-        "address": "Jakarta"
+        "address": "Jakarta",
+        "updatedAt": "2023-03-01T16:47:49.504Z",
+        "createdAt": "2023-03-01T16:47:49.504Z"
     }
 }
 ```
@@ -171,26 +181,30 @@ _Response (400 - Bad Request):_
 ```json
 {
     "errorsMessages": [
-    {
-        "message": "Email must be unique"
-    },
-    // OR
-    {
-        "message": "Password is required"
-    },
-    // OR
-    {
-        "message": "Password be at least 5 characters long"
-    },
-    // OR
-    {
-        "message": "Email is required"
-    },
-    // OR
-    {
-        "message": "Please insert e-mail format"
-    }
-]
+        {
+            "message": "Customer name is required"
+        },
+        // OR
+        {
+            "message": "Customer e-mail is required"
+        },
+        // OR
+        {
+            "message": "Customer password is required"
+        },
+        // OR
+        {
+            "message": "Customer phone number is required"
+        },
+        // OR
+        {
+            "message": "Customer address is required"
+        },
+        // OR
+        {
+            "message": "Please insert unique e-mail"
+        }
+    ]
 }
 ```
 
@@ -213,9 +227,9 @@ _Response (200 - OK):_
 
 ```json
 {
-  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiZW1haWwiOiJlZHVAbWFpbC5jbyIsImlhdCI6MTY3NDk5NDk1NH0.uH5vq9MD3_W0bzuT0Dv-XIH_MUCsJ_BE3LU0u4fer-E",
-  "id": 1,
-  "username": "johndoe"
+    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqb2huZG9lQG1haWwuY29tIiwiaWF0IjoxNjc3NjkwODMxfQ.NL0iYO51YcE5fPC45DuHv4RKZUR5T46JA5chRXK4Ggw",
+    "id": 1,
+    "username": "johndoe"
 }
 ```
 
@@ -241,7 +255,7 @@ _Response (401 - Unauthorized):_
 
 &nbsp;
 
-## 5. POST /google-login
+## 5. POST /public/google-login
 
 Request:
 
@@ -279,14 +293,18 @@ _Response (200 - OK):_
         "name": "template-1",
         "image": "https://images1.com",
         "isPremium": true,
-        "AdminId": 1
+        "AdminId": 1,
+        "createdAt": "2023-03-01T17:23:31.625Z",
+        "updatedAt": "2023-03-01T17:23:31.625Z"
     },
     {
         "id": 2,
-        "name": "template-2",
-        "image": "https://images2.com",
-        "isPremium": false,
-        "AdminId": 1
+        "name": "template-1",
+        "image": "https://images1.com",
+        "isPremium": true,
+        "AdminId": 1,
+        "createdAt": "2023-03-01T17:43:27.745Z",
+        "updatedAt": "2023-03-01T17:43:27.745Z"
     }
     ...,
 ]
@@ -294,8 +312,40 @@ _Response (200 - OK):_
 
 &nbsp;
 
-## 8. GET /public/mytemplates
+## 8. POST /public/mytemplates/:templateId
 
+_Request:_
+- params
+```json
+{
+    "templateId": 1
+}
+```
+_Response (201 - Created):_
+```json
+{
+    "id": 1,
+    "CustomerId": 1,
+    "TemplateId": 1,
+    "updatedAt": "2023-03-01T18:01:03.488Z",
+    "createdAt": "2023-03-01T18:01:03.488Z"
+}
+```
+_Response (400 - Bad Request):_
+```json
+{
+    "message": "Template already in your list"
+}
+_Response (404 - Not Found):_
+```json
+{
+    "message": "Template not found"
+}
+```
+
+&nbsp;
+
+## 9. GET /public/mytemplates
 _Response (200 - OK):_
 
 ```json
@@ -304,58 +354,20 @@ _Response (200 - OK):_
         "id": 1,
         "CustomerId": 1,
         "TemplateId": 1,
+        "createdAt": "2023-03-01T18:01:03.488Z",
+        "updatedAt": "2023-03-01T18:01:03.488Z",
         "Template": {
+            "id": 1,
             "name": "template-1",
             "image": "https://images1.com",
             "isPremium": true,
-            "AdminId": 1
+            "AdminId": 1,
+            "createdAt": "2023-03-01T17:23:31.625Z",
+            "updatedAt": "2023-03-01T17:23:31.625Z"
         }
-    },
-    {
-        "id": 2,
-        "CustomerId": 1,
-        "TemplateId": 2,
-        "Template": {
-            "name": "template-2",
-            "image": "https://images2.com",
-            "isPremium": false,
-            "AdminId": 1
-        }
-    },
+    }
     ...,
 ]
-```
-
-&nbsp;
-
-## 9. GET /public/mytemplates/:templateId
-
-_Request params:_
-
-```json
-{
-  "templateId": 1
-}
-```
-
-_Response (200 - OK):_
-
-```json
-{
-    "id": 1,
-    "name": "template-1",
-    "image": "https://images1.com",
-    "isPremium": true,
-    "AdminId": 1
-},
-```
-
-_Response (404 - Not Found):_
-
-```json
-{
-  "message": "Template not found"
-}
 ```
 
 &nbsp;
@@ -378,8 +390,20 @@ _Response (200 - OK):_
     "name": "template-1",
     "image": "https://images1.com",
     "isPremium": true,
-    "AdminId": 1
-},
+    "AdminId": 1,
+    "createdAt": "2023-03-01T17:23:31.625Z",
+    "updatedAt": "2023-03-01T17:23:31.625Z",
+    "Admin": {
+        "id": 1,
+        "username": "johndoe",
+        "email": "johndoe@mail.com",
+        "password": "$2a$10$ErTU61vANBrLW3ZbpCXa.uPIDwM7EKJPs2qoOo3seZ07R1D4cCKiK",
+        "phoneNumber": "08123456789",
+        "address": "Jakarta",
+        "createdAt": "2023-03-01T16:36:26.930Z",
+        "updatedAt": "2023-03-01T16:36:26.930Z"
+    }
+}
 ```
 
 _Response (404 - Not Found):_
@@ -394,100 +418,225 @@ _Response (404 - Not Found):_
 
 
 
-## 11. GET /public/:userId
+## 11. GET /public/mydetail
+_Response (200 - OK):_
+```json
+{
+    "id": 1,
+    "fullName": "John Doe",
+    "summary": "A game enthusiast with a passion for programming, especially in web development and mobile applications. Began my programming journey by finishing Hacktiv8 bootcamp as a full-stack web developer, having decided to leave my previous career in the banking industry to pursue what has been a lifelong passion, technology.",
+    "educations": "[{\"schoolName\":\"School University\",\"degree\":\"Bachelor of Science\",\"startingYear\":2016,\"yearOfGraduates\":2020},{\"schoolName\":\"School University 2\",\"degree\":\"Master of Science\",\"startingYear\":2020,\"yearOfGraduates\":2023}]",
+    "workExperiences": "[{\"workPlaceName\":\"Bank Dunia\",\"position\":\"Teller\",\"startingDate\":\"March 2015\",\"endingDate\":\"April 2016\"}]",
+    "languages": "[{\"language\":\"English\",\"proficiency\":\"IELTS 7\"}]",
+    "skills": "[{\"name\":\"Backend\",\"techs\":[{\"name\":\"Express\"},{\"name\":\"Sequelize\"}]},{\"name\":\"Frontend\",\"techs\":[{\"name\":\"React.js\"},{\"name\":\"Vue.js\"}]}]",
+    "certifications": "[{\"provider\":\"Udemy\",\"title\":\"JavaScript algorithms and data structures\",\"issuedOn\":\"Date\",\"expirationDate\":\"Date\",\"certificateLink\":\"https://google.com\"}]",
+    "CustomerId": 1,
+    "createdAt": "2023-03-02T07:25:07.688Z",
+    "updatedAt": "2023-03-02T07:25:07.688Z",
+    "Customer": {
+        "id": 1,
+        "username": "johndoecustomer",
+        "email": "johndoecustomer@mail.com",
+        "password": "$2a$10$wjNn0yq2sPcI5uwH/J3lme5VRthpK9uL.chAY.3i3xOij7DzCDgN6",
+        "isPremium": false,
+        "phoneNumber": "08123456789",
+        "address": "Jakarta",
+        "createdAt": "2023-03-02T06:19:45.605Z",
+        "updatedAt": "2023-03-02T06:19:45.605Z"
+    }
+}
+```
+
+&nbsp;
+
+
+## 12. POST /public/mydetail
 _Request:_
-- params 
+- body
+```json
+{
+    "fullName": "John Doe",
+    "summary": "A game enthusiast with a passion for programming, especially in web development and mobile applications. Began my programming journey by finishing Hacktiv8 bootcamp as a full-stack web developer, having decided to leave my previous career in the banking industry to pursue what has been a lifelong passion, technology.",
+    "educations": [
+        {
+            "schoolName": "School University",
+            "degree": "Bachelor of Science",
+            "startingYear": 2016,
+            "yearOfGraduates": 2020
+        },
+        {
+            "schoolName": "School University 2",
+            "degree": "Master of Science",
+            "startingYear": 2020,
+            "yearOfGraduates": 2023
+        }
+    ],
+    "workExperiences": [
+        {
+            "workPlaceName": "Bank Dunia",
+            "position": "Teller",
+            "startingDate": "March 2015",
+            "endingDate": "April 2016"
+        }
+    ],
+    "languages": [
+        {
+            "language": "English",
+            "proficiency": "IELTS 7"
+        }
+    ],
+    "skills": [
+        {
+            "name": "Backend",
+            "techs": [
+                {
+                    "name": "Express"
+                },
+                {
+                    "name": "Sequelize"
+                }
+            ]
+        },
+        {
+            "name": "Frontend",
+            "techs": [
+                {
+                    "name": "React.js"
+                },
+                {
+                    "name": "Vue.js"
+                }
+            ]
+        }
+    ],
+    "certifications": [
+        {
+            "provider": "Udemy",
+            "title": "JavaScript algorithms and data structures",
+            "issuedOn": "Date",
+            "expirationDate": "Date",
+            "certificateLink": "https://google.com"
+        }
+    ]
+}
+```
+_Response (200 - OK)_
+```json
+{
+    "id": 1,
+    "fullName": "",
+    "summary": "A game enthusiast with a passion for programming, especially in web development and mobile applications. Began my programming journey by finishing Hacktiv8 bootcamp as a full-stack web developer, having decided to leave my previous career in the banking industry to pursue what has been a lifelong passion, technology.",
+    "educations": "[{\"schoolName\":\"School University\",\"degree\":\"Bachelor of Science\",\"startingYear\":2016,\"yearOfGraduates\":2020},{\"schoolName\":\"School University 2\",\"degree\":\"Master of Science\",\"startingYear\":2020,\"yearOfGraduates\":2023}]",
+    "workExperiences": "[{\"workPlaceName\":\"Bank Dunia\",\"position\":\"Teller\",\"startingDate\":\"March 2015\",\"endingDate\":\"April 2016\"}]",
+    "languages": "[{\"language\":\"English\",\"proficiency\":\"IELTS 7\"}]",
+    "skills": "[{\"name\":\"Backend\",\"techs\":[{\"name\":\"Express\"},{\"name\":\"Sequelize\"}]},{\"name\":\"Frontend\",\"techs\":[{\"name\":\"React.js\"},{\"name\":\"Vue.js\"}]}]",
+    "certifications": "[{\"provider\":\"Udemy\",\"title\":\"JavaScript algorithms and data structures\",\"issuedOn\":\"Date\",\"expirationDate\":\"Date\",\"certificateLink\":\"https://google.com\"}]",
+    "CustomerId": 1,
+    "updatedAt": "2023-03-02T07:25:07.688Z",
+    "createdAt": "2023-03-02T07:25:07.688Z"
+}
+```
+_Response (403 - Forbidden):_
+```json
+{
+    "message": "You already have your detail, please edit your detail instead"
+}
+```
+
+&nbsp;
+
+
+## 13. PUT /public/mydetail
+_Request:_
+- body
+```json
+{
+    "fullName": "John Doe",
+    "summary": "A game enthusiast with a passion for programming, especially in web development and mobile applications. Began my programming journey by finishing Hacktiv8 bootcamp as a full-stack web developer, having decided to leave my previous career in the banking industry to pursue what has been a lifelong passion, technology.",
+    "educations": [
+        {
+            "schoolName": "School University",
+            "degree": "Bachelor of Science",
+            "startingYear": 2016,
+            "yearOfGraduates": 2020
+        },
+        {
+            "schoolName": "School University 2",
+            "degree": "Master of Science",
+            "startingYear": 2020,
+            "yearOfGraduates": 2023
+        }
+    ],
+    "workExperiences": [
+        {
+            "workPlaceName": "Bank Dunia",
+            "position": "Teller",
+            "startingDate": "March 2015",
+            "endingDate": "April 2016"
+        }
+    ],
+    "languages": [
+        {
+            "language": "English",
+            "proficiency": "IELTS 7"
+        }
+    ],
+    "skills": [
+        {
+            "name": "Backend",
+            "techs": [
+                {
+                    "name": "Express"
+                },
+                {
+                    "name": "Sequelize"
+                }
+            ]
+        },
+        {
+            "name": "DepanSelesai",
+            "techs": [
+                {
+                    "name": "React.js"
+                },
+                {
+                    "name": "Vue.js"
+                }
+            ]
+        }
+    ],
+    "certifications": [
+        {
+            "provider": "Udemy",
+            "title": "JavaScript algorithms and data structures",
+            "issuedOn": "Date",
+            "expirationDate": "Date",
+            "certificateLink": "https://google.com"
+        }
+    ]
+}
+```
+
+_Response (200 - OK):_
+```json
+{
+    "message": "Your detail updated successfully."
+}
+```
+&nbsp;
+
+## 14. PATCH /public/:userId
+_Request Params:_
 ```json
 {
     "userId": 1
 }
 ```
-_Response (200 - OK):_
-```json
-{
-    "id": 1,
-    "username": "johndoe",
-    "email": "johndoe@mail.com",
-    "password": "12345",
-    "isPremium": true,
-    "phoneNumber": "08123456789",
-    "address": "Jakarta",
-    "CustomerDetail": {
-        "id": 1,
-        "CustomerId": 1,
-        "fullname": "John Doe",
-        "summary": "A game enthusiast with a passion for programming, especially in web development and mobile applications. Began my programming journey by finishing Hacktiv8 bootcamp as a full-stack web developer, having decided to leave my previous career in the banking industry to pursue what has been a lifelong passion, technology.",
-        "educations": [
-            {
-                "schoolName": "School University",
-                "degree": "Bachelor of Science",
-                "startingYear": 2016,
-                "yearOfGraduates": 2020
-            },
-            {
-                "schoolName": "School University 2",
-                "degree": "Master of Science",
-                "startingYear": 2020,
-                "yearOfGraduates": 2023
-            }
-        ],
-        "workExperiences": [
-            {
-                "workPlaceName": "Bank Dunia",
-                "position": "Teller",
-                "startingDate": "March 2015",
-                "endingDate": "April 2016"
-            }
-            ...,
-        ],
-        "languages": [
-            {
-                "language": "English",
-                "proficiency": "IELTS 7"
-            }
-            ...,
-        ],
-        "skills": [
-            {
-                "name": "Backend",
-                "techs": [
-                    {
-                        "name": "Express"
-                    },
-                    {
-                        "name": "Sequelize"
-                    }
-                    ...,
-                ]
-            },
-            {
-                "name": "Frontend",
-                "techs": [
-                    {
-                        "name": "React.js"
-                    },
-                    {
-                        "name": "Vue.js"
-                    }
-                    ...,
-                ]
-            },
 
-            ...,
-        ],
-        "certifications": [
-            {
-                "provider": "Udemy",
-                "title": "JavaScript algorithms and data     structures",
-                "issuedOn": "Date",
-                "expirationDate": "Date" /* OR */ null,
-                "certificateLink": "https://google.com"
-            },
-            ...,
-        ],
-    },
-}
+_Response (201 - Created):_
+```json
 ```
+
 _Response (404 - Not Found):_
 ```json
 {
@@ -495,186 +644,7 @@ _Response (404 - Not Found):_
 }
 ```
 
-&nbsp;
-
-
-## 12. POST /public/:userId
-_Request:_
-- params
-```json
-{
-    "userId": 1
-}
-```
-- body
-```json
-{
-    "fullname": "John Doe",
-        "summary": "A game enthusiast with a passion for programming, especially in web development and mobile applications. Began my programming journey by finishing Hacktiv8 bootcamp as a full-stack web developer, having decided to leave my previous career in the banking industry to pursue what has been a lifelong passion, technology.",
-        "educations": [
-            {
-                "schoolName": "School University",
-                "degree": "Bachelor of Science",
-                "startingYear": 2016,
-                "yearOfGraduates": 2020
-            },
-            {
-                "schoolName": "School University 2",
-                "degree": "Master of Science",
-                "startingYear": 2020,
-                "yearOfGraduates": 2023
-            }
-        ],
-        "workExperiences": [
-            {
-                "workPlaceName": "Bank Dunia",
-                "position": "Teller",
-                "startingDate": "March 2015",
-                "endingDate": "April 2016"
-            }
-            ...,
-        ],
-        "languages": [
-            {
-                "language": "English",
-                "proficiency": "IELTS 7"
-            }
-            ...,
-        ],
-        "skills": [
-            {
-                "name": "Backend",
-                "techs": [
-                    {
-                        "name": "Express"
-                    },
-                    {
-                        "name": "Sequelize"
-                    }
-                    ...,
-                ]
-            },
-            {
-                "name": "Frontend",
-                "techs": [
-                    {
-                        "name": "React.js"
-                    },
-                    {
-                        "name": "Vue.js"
-                    }
-                    ...,
-                ]
-            },
-
-            ...,
-        ],
-        "certifications": [
-            {
-                "provider": "Udemy",
-                "title": "JavaScript algorithms and data     structures",
-                "issuedOn": "Date",
-                "expirationDate": "Date" /* OR */ null,
-                "certificateLink": "https://google.com"
-            },
-            ...,
-        ],
-}
-```
-_Response (200 - OK)_
-```json
-{
-    "message": "Successfully adding your customer detail"
-}
-```
-
-&nbsp;
-
-
-## 13. PUT /public/:userId
-_Request:_
-- params
-```json
-{
-    "userId": 1
-}
-```
-- body
-```json
-{
-    "fullname": "John Doe",
-        "summary": "A game enthusiast with a passion for programming, especially in web development and mobile applications. Began my programming journey by finishing Hacktiv8 bootcamp as a full-stack web developer, having decided to leave my previous career in the banking industry to pursue what has been a lifelong passion, technology.",
-        "educations": [
-            {
-                "schoolName": "School University",
-                "degree": "Bachelor of Science",
-                "startingYear": 2016,
-                "yearOfGraduates": 2020
-            },
-            {
-                "schoolName": "School University 2",
-                "degree": "Master of Science",
-                "startingYear": 2020,
-                "yearOfGraduates": 2023
-            }
-        ],
-        "workExperiences": [
-            {
-                "workPlaceName": "Bank Dunia",
-                "position": "Teller",
-                "startingDate": "March 2015",
-                "endingDate": "April 2016"
-            }
-            ...,
-        ],
-        "languages": [
-            {
-                "language": "English",
-                "proficiency": "IELTS 7"
-            }
-            ...,
-        ],
-        "skills": [
-            {
-                "name": "Backend",
-                "techs": [
-                    {
-                        "name": "Express"
-                    },
-                    {
-                        "name": "Sequelize"
-                    }
-                    ...,
-                ]
-            },
-            {
-                "name": "Frontend",
-                "techs": [
-                    {
-                        "name": "React.js"
-                    },
-                    {
-                        "name": "Vue.js"
-                    }
-                    ...,
-                ]
-            },
-
-            ...,
-        ],
-        "certifications": [
-            {
-                "provider": "Udemy",
-                "title": "JavaScript algorithms and data     structures",
-                "issuedOn": "Date",
-                "expirationDate": "Date" /* OR */ null,
-                "certificateLink": "https://google.com"
-            },
-            ...,
-        ],
-}
-```
-## 14. POST /templates
+## 15. POST /templates
 _Request body:_
 ```json
 {
@@ -690,7 +660,9 @@ _Response (201 - Created):_
     "name": "template-1",
     "image": "https://images1.com",
     "isPremium": true,
-    "AdminId": 1
+    "AdminId": 1,
+    "updatedAt": "2023-03-01T17:43:27.745Z",
+    "createdAt": "2023-03-01T17:43:27.745Z"
 }
 ```
 _Response (400 - Bad Request):_
@@ -707,7 +679,9 @@ _Response (400 - Bad Request):_
     ]
 }
 ```
-## 15. PUT /templates/:templateId
+
+
+## 16. PUT /templates/:templateId
 _Request:_
 - params 
 ```json
@@ -718,17 +692,15 @@ _Request:_
 - body
 ```json
 {
-    "id": 1,
     "name": "template-1",
     "image": "https://images1.com",
     "isPremium": true,
-    "AdminId": 1
 }
 ```
 _Response (200 - OK):_
 ```json
 {
-    "message": "Template succesfully updated"
+    "message": "Template with name template-1, updated successfully."
 }
 ```
 _Response (400 - Bad Request):_
@@ -746,7 +718,9 @@ _Response (400 - Bad Request):_
 }
 ```
 
-## 16. DELETE /templates/:templateId
+
+
+## 17. PATCH /templates/:templateId
 _Request params:_
 ```json
 {
@@ -756,7 +730,13 @@ _Request params:_
 _Response (200 - OK):_
 ```json
 {
-    "message": "Template succesfully deleted"
+    "message": "template-1's status succesfully updated from Active to Inactive"
+}
+```
+_Response (400 - Bad Request):_
+```json
+{
+    "message": "Template status already Active"
 }
 ```
 
@@ -767,6 +747,13 @@ _Response (401 - Unauthorized)_
 ```json
 {
   "message": "Please login first"
+}
+```
+_Response (401 - Unauthorized)_
+
+```json
+{
+  "message": "Invalid access token"
 }
 ```
 
