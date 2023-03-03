@@ -12,7 +12,7 @@ const {
 
 class ControllerAdmin {
   static async createTemplate(req, res, next) {
-    try {
+    try { 
       let { name, image, isPremium } = req.body;
       let templateData = await Template.create({
         name, image, isPremium, AdminId: req.admin.id, status: 'Active'
