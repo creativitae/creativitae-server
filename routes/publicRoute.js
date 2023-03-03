@@ -19,7 +19,7 @@ publicRoute.get('/mytemplates', ControllerCustomer.getMyTemplate)
 publicRoute.post('/mydetail', ControllerCustomer.createCustomerDetail)
 publicRoute.get('/mydetail', ControllerCustomer.getCustomerDetail)
 publicRoute.put('/mydetail', ControllerCustomer.editCustomerDetail)
-publicRoute.patch('/mydetail', ControllerCustomer.patchPremium)
+publicRoute.patch('/mydetail', ControllerCustomer.patchPremiumUser)
 
 
 module.exports = publicRoute
