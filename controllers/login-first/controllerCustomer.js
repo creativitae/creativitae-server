@@ -47,15 +47,31 @@ class ControllerCustomer {
       let templateData = await Template.findOne({
         where: { id: req.params.templateId },
       });
+      let findCustomer = await Customer.findOne({
+        where: { id: req.customer.id }
+      })
+      if (templateData.isPremium && !(findCustomer.isPremium)) throw { status: 403, msg: "You need upgrade to premium to unlock this design"}
       if (!templateData) throw { status: 404, msg: "Template not found" };
       let findMyTemplate = await CustomerTemplate.findAll({
         where: {
           CustomerId: req.customer.id,
           TemplateId: req.params.templateId,
         },
+        include: Customer
       });
       if (findMyTemplate.length > 0) {
         throw { status: 400, msg: "Template already in your template list" };
+      }
+      let findTotalTemplate = await CustomerTemplate.findAll({
+        where: {
+          CustomerId: req.customer.id
+        },
+        include: Customer
+      })
+      if (findTotalTemplate.length) {
+        if (!(findTotalTemplate[0]?.Customer?.isPremium)) {
+          throw { status: 400, msg: "Free user can only have one CV, create unlimited CV with premium perks"}
+        }
       }
       let myTemplateData = await CustomerTemplate.create({
         CustomerId: req.customer.id,
@@ -67,7 +83,7 @@ class ControllerCustomer {
       next(error);
     }
   }
-  static async patchPremium(req, res, next) {
+  static async patchPremiumUser(req, res, next) {
     try {
     } catch (error) {
       console.log(error)
@@ -91,7 +107,13 @@ class ControllerCustomer {
   static async createCustomerDetail(req, res, next) {
     try {
       let findCustomerDetail = await CustomerDetail.findOne({where: {CustomerId: req.customer.id}})
-      if (findCustomerDetail) throw {status: 403, msg: "You already have your detail, please edit your detail instead"}
+      if (findCustomerDetail) {
+        if (!(findCustomerDetail.Customer.isPremium)) {
+          throw {status: 403, msg: "Free user can only have one CV, create unlimited CV with premium perks"}
+        }
+      }
+      
+
       let { fullName, summary, educations, workExperiences, languages, skills, certifications } = req.body;
       if (!fullName) fullName = ''
       if (!summary) summary = ''

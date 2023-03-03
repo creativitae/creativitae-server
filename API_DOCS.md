@@ -20,7 +20,7 @@ Routes below need authentication :
 11. `GET /public/mydetail`
 12. `POST /public/mydetail`
 13. `PUT /public/mydetail`
-14. `PATCH /pubilc/:userId`
+14. `PATCH /pubilc/mydetail`
 
 Routes below need authentication & authorization :
 
@@ -336,6 +336,20 @@ _Response (400 - Bad Request):_
 {
     "message": "Template already in your list"
 }
+```
+_Response (400 - Bad Request):_
+```json
+{
+    "message": "Free user can only have one CV, create unlimited CV with premium perks"
+}
+```
+_Response (403 - Forbidden):_
+```json
+{
+    "message": "You need upgrade to premium to unlock this design"
+}
+```
+
 _Response (404 - Not Found):_
 ```json
 {
@@ -625,14 +639,7 @@ _Response (200 - OK):_
 ```
 &nbsp;
 
-## 14. PATCH /public/:userId
-_Request Params:_
-```json
-{
-    "userId": 1
-}
-```
-
+## 14. PATCH /public/mydetail
 _Response (201 - Created):_
 ```json
 ```
@@ -727,16 +734,17 @@ _Request params:_
     "templateId": 1
 }
 ```
+_Request body:_
+```json
+{
+    "status": "Inactive",
+    "isPremium": true
+}
+```
 _Response (200 - OK):_
 ```json
 {
-    "message": "template-1's status succesfully updated from Active to Inactive"
-}
-```
-_Response (400 - Bad Request):_
-```json
-{
-    "message": "Template status already Active"
+    "message": "template-1's status succesfully updated"
 }
 ```
 

@@ -63,10 +63,10 @@ class ControllerAdmin {
         { returning: true }
       );
       if (!templateData) throw { status: 404, msg: "Template not found"}
-      if (templateData.status === req.body.status) throw {status: 400, msg: `Template status already ${req.body.status}`}
+      // if (templateData.status === req.body.status || (templateData.isPremium === req.body.isPremium)) throw {status: 400, msg: `Template status already ${req.body.status}`}
       editedTemplate = templateData.name;
-      await Template.update({status: req.body.status},{ where: { id: req.params.templateId } });
-      res.status(200).json({ message: `${editedTemplate}'s status succesfully updated from ${templateData.status} to ${req.body.status}` });
+      await Template.update({status: req.body.status, isPremium: req.body.isPremium},{ where: { id: req.params.templateId } });
+      res.status(200).json({ message: `${editedTemplate}'s status succesfully updated` });
     } catch (error) {
       next(error);
     }
