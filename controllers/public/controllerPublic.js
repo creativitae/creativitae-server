@@ -59,6 +59,7 @@ class ControllerPublic {
         .status(200)
         .json({ access_token, id: customer.id, username: customer.username, email: customer.email });
     } catch (err) {
+      console.log(err);
       next(err);
     }
   }
