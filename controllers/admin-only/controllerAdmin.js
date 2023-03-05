@@ -12,7 +12,7 @@ const {
 
 class ControllerAdmin {
   static async createTemplate(req, res, next) {
-    try {
+    try { 
       let { name, image, isPremium } = req.body;
       if (!name) throw { status: 400, msg: 'Please insert template name'}
       if (!image) throw { status: 400, msg: 'Please insert template image'}

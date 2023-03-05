@@ -10,6 +10,9 @@ const {
   Receipt,
   Template,
 } = require("../../models");
+const querystring = require('querystring');
+const axios = require('axios');
+const BASE_URL = 'http://localhost:5173'
 
 class ControllerCustomer {
   static async getMyTemplate(req, res, next) {
@@ -172,7 +175,125 @@ class ControllerCustomer {
       next(error);
     }
   }
+  static async LinkedinLogin(req, res, next) {
+    try {
+      let client_id = "86o3pfdquzum55";
+      let redirect_uri = `${BASE_URL}/callbacks`;
+      let state = (Math.random() + 1).toString(36).substring(7);
+      let scope = 'r_emailaddress r_liteprofile';
+        res.json({url: 'https://www.linkedin.com/oauth/v2/authorization?' +
+        querystring.stringify({
+          response_type: 'code',
+          client_id: client_id,
+          scope: scope,
+          redirect_uri: redirect_uri,
+          state: state
+        })});
+    } catch (err) {
+      console.log(err);
+      next(err)
+    }
+  }
 
+  static async getAuthToken(req, res, next) {
+    try {
+      let code = req.body.code
+      let redirect_uri = `${BASE_URL}/callbacks`;
+      let client_id = "86o3pfdquzum55"
+      let client_secret = "m0mOlmIFPVGwZLud"
+      let {data} = await axios({
+        method: 'post',
+        url: 'https://www.linkedin.com/oauth/v2/accessToken',
+        headers: {
+          Authorization: 'Basic ' + btoa(client_id + ':' + client_secret),
+          "Content-Type": 'application/x-www-form-urlencoded'
+        },
+        data: {
+          code,
+          redirect_uri,
+          grant_type: 'authorization_code',
+          client_secret
+        },
+      })
+      res.status(200).json({data})
+
+    } catch (err) {
+      console.log(err, 'this');
+    }
+  }
+
+  static async getMe(req, res, next) {
+    try {
+      let token = req.body.code
+      console.log(token, 'ini token di getme');
+      let {data} = await axios({
+        method: 'get',
+        url: `https://api.linkedin.com/v2/me`,
+        headers: {
+          Authorization: 'Bearer ' + token,
+          "Content-Type": 'application/json'
+        },
+      })
+      console.log(data, 'userdata');
+      res.status(200).json({username: `${data.localizedFirstName} ${data.localizedLastName}`})
+    } catch (err) {
+      console.log(err.response.data, 'ERR');
+    }
+  }
+
+  static async getEMail(req, res, next) {
+    try {
+      let token = req.body.code
+      console.log(token, 'ini token');
+      let {data} = await axios({
+        method: 'get',
+        url: `https://api.linkedin.com/v2/emailAddress?q=members&projection=(elements*(handle~))`,
+        headers: {
+          Authorization: 'Bearer ' + token,
+          "Content-Type": 'application/json'
+        },
+      })
+      let dataEmail = data.elements[0]
+      let emailLinkedin = dataEmail['handle~'].emailAddress
+      console.log({email: emailLinkedin});
+      
+      // console.log(data2['handle~'].emailAddress , 'userdata');
+      res.status(200).json({email: emailLinkedin})
+    } catch (err) {
+      console.log(err.response.data, 'ERRs');
+    }
+  }
+
+  static async linkedinFinalAuth(req, res, next) {
+    try {
+      console.log('masukkk di register or login');
+      let {payload} = req.body
+
+      let [created] = await Customer.findOrCreate({
+        where: { email: payload.email },
+        defaults: {
+          username: payload.username,
+          email: payload.email,
+          password: "customer-linkedin-login",
+          isPremium: false,
+          phoneNumber: '0902930293',
+          address: 'jl. aaaaa no.23'
+        },
+        hooks: false,
+      });
+
+      let access_token = createToken({
+        id: created.id,
+        email: created.email,
+      });
+
+      res.status(200).json({ access_token, id: created.id, username: created.username, email: created.email })  ;
+
+    } catch (err) {
+      console.log(err);
+      next(err) 
+    }
+  }
 }
 
 module.exports = ControllerCustomer;
