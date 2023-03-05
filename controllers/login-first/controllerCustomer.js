@@ -50,7 +50,7 @@ class ControllerCustomer {
       let findCustomer = await Customer.findOne({
         where: { id: req.customer.id }
       })
-      if (templateData.isPremium && !(findCustomer.isPremium)) throw { status: 403, msg: "You need upgrade to premium to unlock this design"}
+      if (templateData?.isPremium && !(findCustomer?.isPremium)) throw { status: 403, msg: "You need upgrade to premium to unlock this design"}
       if (!templateData) throw { status: 404, msg: "Template not found" };
       let findMyTemplate = await CustomerTemplate.findAll({
         where: {
@@ -108,12 +108,8 @@ class ControllerCustomer {
     try {
       let findCustomerDetail = await CustomerDetail.findOne({where: {CustomerId: req.customer.id}})
       if (findCustomerDetail) {
-        if (!(findCustomerDetail.Customer.isPremium)) {
-          throw {status: 403, msg: "Free user can only have one CV, create unlimited CV with premium perks"}
-        }
+          throw {status: 403, msg: "You already have your detail, you can edit it instead"}
       }
-      
-
       let { fullName, summary, educations, workExperiences, languages, skills, certifications } = req.body;
       if (!fullName) fullName = ''
       if (!summary) summary = ''
@@ -133,6 +129,7 @@ class ControllerCustomer {
       });
       res.status(201).json(custData);
     } catch (error) {
+      console.log(error)
       next(error);
     }
   }

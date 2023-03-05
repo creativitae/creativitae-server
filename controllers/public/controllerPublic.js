@@ -43,15 +43,15 @@ class ControllerPublic {
       let customer = await Customer.findOne({ where: { email } });
       if (!customer)
         throw {
-          status: 401,
+          status: 400,
           msg: "Error invalid email or password",
         };
 
       let isValidPassword = compare(password, customer.password);
       if (!isValidPassword)
         throw {
-          status: 401,
-          msg: "Error invalid username or email or password",
+          status: 400,
+          msg: "Error invalid email or password",
         };
 
       let access_token = createToken({ id: customer.id, email: customer.email });
@@ -86,15 +86,15 @@ class ControllerPublic {
       let admin = await Admin.findOne({ where: { email } });
       if (!admin)
         throw {
-          status: 401,
+          status: 400,
           msg: "Error invalid email or password",
         };
 
       let isValidPassword = compare(password, admin.password);
       if (!isValidPassword)
         throw {
-          status: 401,
-          msg: "Error invalid username or email or password",
+          status: 400,
+          msg: "Error invalid email or password",
         };
       let access_token = createToken({ id: admin.id, email: admin.email });
       res
