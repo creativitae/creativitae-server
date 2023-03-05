@@ -13,13 +13,14 @@ publicRoute.post('/login', ControllerPublic.customerLogin)
 // Create and fetch MyTemplates
 publicRoute.use(authenticationCustomer)
 publicRoute.post('/mytemplates/:templateId', ControllerCustomer.createMyTemplate)
+publicRoute.get('/mytemplates/:templateId', ControllerCustomer.getTemplateById)
 publicRoute.get('/mytemplates', ControllerCustomer.getMyTemplate)
 
 // Create, fetch, edit CustomerDetail
 publicRoute.post('/mydetail', ControllerCustomer.createCustomerDetail)
 publicRoute.get('/mydetail', ControllerCustomer.getCustomerDetail)
 publicRoute.put('/mydetail', ControllerCustomer.editCustomerDetail)
-publicRoute.patch('/mydetail', ControllerCustomer.patchPremiumUser)
+// publicRoute.patch('/mydetail', ControllerCustomer.patchPremiumUser)
 
 
 module.exports = publicRoute

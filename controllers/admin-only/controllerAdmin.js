@@ -14,6 +14,9 @@ class ControllerAdmin {
   static async createTemplate(req, res, next) {
     try {
       let { name, image, isPremium } = req.body;
+      if (!name) throw { status: 400, msg: 'Please insert template name'}
+      if (!image) throw { status: 400, msg: 'Please insert template image'}
+      if (isPremium === null) throw { status: 400, msg: 'Please insert template premium status'}
       let templateData = await Template.create({
         name, image, isPremium, AdminId: req.admin.id, status: 'Active'
       });
@@ -25,6 +28,9 @@ class ControllerAdmin {
   static async editTemplate(req, res, next) {
     try {
       const { name, image, isPremium, status } = req.body;
+      if (!name) throw { status: 400, msg: 'Please insert template name'}
+      if (!image) throw { status: 400, msg: 'Please insert template image'}
+      if (isPremium === null) throw { status: 400, msg: 'Please insert template premium status'}
       let templateData = await Template.findOne(
         { where: { id: req.params.templateId } },
         { returning: true }
@@ -72,5 +78,6 @@ class ControllerAdmin {
     }
   }
 }
+
 
 module.exports = ControllerAdmin;

@@ -161,19 +161,19 @@ Request:
 _Response (201 - Created):_
 
 ```json
-{
-    "customer": {
-        "id": 1,
-        "username": "johndoe",
-        "email": "johndoe@mail.com",
-        "password": "$2a$10$P5DCpyUwjy.7o4i3LVrwPuAbIK7EooGNpaLwZUs.HDs/5zeTX2kAm",
-        "isPremium": false,
-        "phoneNumber": "08123456789",
-        "address": "Jakarta",
-        "updatedAt": "2023-03-01T16:47:49.504Z",
-        "createdAt": "2023-03-01T16:47:49.504Z"
+    {
+        "customer": {
+            "id": 1,
+            "username": "johndoe",
+            "email": "johndoe@mail.com",
+            "password": "$2a$10$P5DCpyUwjy.7o4i3LVrwPuAbIK7EooGNpaLwZUs.HDs/5zeTX2kAm",
+            "isPremium": false,
+            "phoneNumber": "08123456789",
+            "address": "Jakarta",
+            "updatedAt": "2023-03-01T16:47:49.504Z",
+            "createdAt": "2023-03-01T16:47:49.504Z"
+        }
     }
-}
 ```
 
 _Response (400 - Bad Request):_
@@ -553,7 +553,7 @@ _Response (200 - OK)_
 _Response (403 - Forbidden):_
 ```json
 {
-    "message": "You already have your detail, please edit your detail instead"
+    "message": "You already have your detail, you can edit it instead"
 }
 ```
 
@@ -637,6 +637,12 @@ _Response (200 - OK):_
     "message": "Your detail updated successfully."
 }
 ```
+_Response (404 - Not Found):_
+```json
+{
+    "message": "You don't have your detail yet, please create one"
+}
+```
 &nbsp;
 
 ## 14. PATCH /public/mydetail
@@ -675,15 +681,17 @@ _Response (201 - Created):_
 _Response (400 - Bad Request):_
 ```json
 {
-    "errorsMessages": [
-        {
-            "message": "Please insert template name"
-        },
-        // OR
-        {
-            "message": "Please insert template image"
-        }
-    ]
+    {
+        "message": "Please insert template name"
+    },
+    // OR
+    {
+        "message": "Please insert template image"
+    },
+    // OR
+    {
+        "message": "Please insert template premium status"
+    },
 }
 ```
 
@@ -745,6 +753,12 @@ _Response (200 - OK):_
 ```json
 {
     "message": "template-1's status succesfully updated"
+}
+```
+_Response (404 - Not found):_
+```json
+{
+    "message": "Template not found"
 }
 ```
 
