@@ -6,6 +6,8 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const router = require("./routes");
+const upload = require('./helpers/multer')
+const cloudinary = require('./helpers/cloudinary')
 const { errorHandler } = require("./middlewares/errorHandler");
 
 app.use(cors());

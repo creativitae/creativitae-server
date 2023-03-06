@@ -21,6 +21,15 @@ Routes below need authentication :
 12. `POST /public/mydetail`
 13. `PUT /public/mydetail`
 14. `PATCH /pubilc/mydetail`
+15. `15. POST /templates`
+16. `PUT /templates/:templateId`
+17. `PATCH /templates/:templateId`
+18. `18. POST /templates/upload-images`
+19. `GET /users/linkedin-request-auth`
+20. `POST /users/linkedin-user-auth`
+21. `POST /users/me`
+22. `POST /users/getemail`
+23. `POST /users/loginOrRegister`
 
 Routes below need authentication & authorization :
 
@@ -759,6 +768,112 @@ _Response (404 - Not found):_
 ```json
 {
     "message": "Template not found"
+}
+```
+
+## 18. POST /templates/upload-images
+
+_Response (201 - Created):_
+```json
+{
+    "message": "images uploaded succesfully",
+    "data": [
+        {
+            "url": "http://res.cloudinary.com/dtaetrd2d/image/upload/v1678091918/Images/lau2afbnzkhhbr7jg8pa.png",
+            "id": "Images/lau2afbnzkhhbr7jg8pa"
+        }
+    ]
+}
+```
+
+_Response (400 - Bad Request)_
+
+```json
+{
+  "message": "Image too large, please use image with 1mb size"
+}, // or
+{
+  "message": "Unsupported file format, please use file with format png/jpeg"
+}
+
+```
+
+## 19. GET /users/linkedin-request-auth
+
+_Response (200 - OK):_
+```json
+{
+    "url": "https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=86o3pfdquzum55&scope=r_emailaddress%20r_liteprofile&redirect_uri=http%3A%2F%2Flocalhost%3A5173%2Fcallbacks&state=3d859"
+}
+```
+
+## 20. POST /users/linkedin-user-auth
+
+_Request body:_
+```json
+{
+  "code": "AQRuR3C4qjTs3V0oyT4thzU-HX0NyIN3-93Mx6CtFrVlCgnr-QhJWauRYwTRtCq-PMLTdcEQA94NDysx6IpMUOd-xyj2R1T0pWbEQfiJ40UGkWNIUjlr5RhTkQmL01-CzCXGHh0xMCBN3wNFbjEd4clqcs51nIO724SiEJeckn0ttXEfoFQeelh_1leAMtqFX9HnKlUI9171x8qSE2k  "  
+}
+```
+
+_Response (200 - OK):_
+```json
+{
+    "access_token": "AQVKshL9Jq6YqUxPzpW64QhnU-fYF3dRydcMGJMSAVSctaYkN8QuNoGRgOMekfP6vlcpad4x0JV5_k2puvs1xbQfgpC04HweoDbixk1lzqGRcIMioZo_baYU3VrJCnw36IrsejA_Dr7Xf6UX9xu__uQ791mPO404GuCfdGl9yY7o6jT1b9oySghoJlTNLvqJ-BTCU4gT8U7ye-lqfElH3vYz8syMVAkOHV0LpuZMct7x2g_CpWvImQfV1_pTPv1nWG3ABCg7FeeCWCH4RgRFl5qiWjk267tNE32aBX9dbXcy3J1KpVdky6OxZjdt4sj_4g9AH72x14ajIfiT2m4_vMJcSlH0mw",
+    "expires_in": 5183999,
+    "scope": "r_emailaddress,r_liteprofile"
+}
+```
+
+## 21. POST /users/me
+
+_Request body:_
+```json
+{
+  "code": "AQRuR3C4qjTs3V0oyT4thzU-HX0NyIN3-93Mx6CtFrVlCgnr-QhJWauRYwTRtCq-PMLTdcEQA94NDysx6IpMUOd-xyj2R1T0pWbEQfiJ40UGkWNIUjlr5RhTkQmL01-CzCXGHh0xMCBN3wNFbjEd4clqcs51nIO724SiEJeckn0ttXEfoFQeelh_1leAMtqFX9HnKlUI9171x8qSE2k"  
+}
+```
+
+_Response (200 - OK):_
+```json
+{
+    "username": "Mess Opposite"
+}
+```
+
+## 22. POST /users/getemail
+
+_Request body:_
+```json
+{
+  "code": "AQRuR3C4qjTs3V0oyT4thzU-HX0NyIN3-93Mx6CtFrVlCgnr-QhJWauRYwTRtCq-PMLTdcEQA94NDysx6IpMUOd-xyj2R1T0pWbEQfiJ40UGkWNIUjlr5RhTkQmL01-CzCXGHh0xMCBN3wNFbjEd4clqcs51nIO724SiEJeckn0ttXEfoFQeelh_1leAMtqFX9HnKlUI9171x8qSE2k"  
+}
+```
+
+_Response (200 - OK):_
+```json
+{
+    "email": "wahyunanandika@gmail.com"
+}
+```
+
+## 23. POST /users/loginOrRegister
+
+_Request body:_
+```json
+{
+  "username": "Mess opposite",
+  "email": "wahyunanandika@gmail.com"
+}
+```
+
+_Response (200 - OK):_
+```json
+{
+    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJ3YWh5dW5hbmFuZGlrYUBnbWFpbC5jb20iLCJpYXQiOjE2NzgxMDI1NTd9.q8nyQILU9MHRwE2R3tYmXO9327-EkSILQ1GG_MJ3r5A",
+  "id": 1,
+  "username": "Mess opposite",
+  "email": "wahyunanandika@gmail.com"
 }
 ```
 
