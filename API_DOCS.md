@@ -21,12 +21,14 @@ Routes below need authentication :
 12. `POST /public/mydetail`
 13. `PUT /public/mydetail`
 14. `PATCH /pubilc/mydetail`
+15. `POST /payment`
+16. `READ /payment`
 
 Routes below need authentication & authorization :
 
-15. `POST /templates`
-16. `PUT /templates/:templateId`
-17. `PATCH /templates/:templateId`
+17. `POST /templates`
+18. `PUT /templates/:templateId`
+19. `PATCH /templates/:templateId`
 
 &nbsp;
 
@@ -761,6 +763,371 @@ _Response (404 - Not found):_
     "message": "Template not found"
 }
 ```
+
+## 18. POST /payment
+Response (201 - Created):_
+```json
+{
+    {
+    "id": "640444cf63bf9b4eaeeedc56",
+    "external_id": "1",
+    "user_id": "6403605c456fbecb3aff51c5",
+    "status": "PENDING",
+    "merchant_name": "creativitae",
+    "merchant_profile_picture_url": "https://du8nwjtfkinx.cloudfront.net/xendit.png",
+    "amount": 15000,
+    "payer_email": "alfianelsaarief@gmail.com",
+    "description": "Get Premium",
+    "expiry_date": "2023-03-06T07:29:19.955Z",
+    "invoice_url": "https://checkout-staging.xendit.co/web/640444cf63bf9b4eaeeedc56",
+    "available_banks": [
+        {
+            "bank_code": "MANDIRI",
+            "collection_type": "POOL",
+            "transfer_amount": 15000,
+            "bank_branch": "Virtual Account",
+            "account_holder_name": "CREATIVITAE",
+            "identity_amount": 0
+        },
+        {
+            "bank_code": "BRI",
+            "collection_type": "POOL",
+            "transfer_amount": 15000,
+            "bank_branch": "Virtual Account",
+            "account_holder_name": "CREATIVITAE",
+            "identity_amount": 0
+        },
+        {
+            "bank_code": "BNI",
+            "collection_type": "POOL",
+            "transfer_amount": 15000,
+            "bank_branch": "Virtual Account",
+            "account_holder_name": "CREATIVITAE",
+            "identity_amount": 0
+        },
+        {
+            "bank_code": "PERMATA",
+            "collection_type": "POOL",
+            "transfer_amount": 15000,
+            "bank_branch": "Virtual Account",
+            "account_holder_name": "CREATIVITAE",
+            "identity_amount": 0
+        },
+        {
+            "bank_code": "BCA",
+            "collection_type": "POOL",
+            "transfer_amount": 15000,
+            "bank_branch": "Virtual Account",
+            "account_holder_name": "CREATIVITAE",
+            "identity_amount": 0
+        },
+        {
+            "bank_code": "SAHABAT_SAMPOERNA",
+            "collection_type": "POOL",
+            "transfer_amount": 15000,
+            "bank_branch": "Virtual Account",
+            "account_holder_name": "CREATIVITAE",
+            "identity_amount": 0
+        },
+        {
+            "bank_code": "CIMB",
+            "collection_type": "POOL",
+            "transfer_amount": 15000,
+            "bank_branch": "Virtual Account",
+            "account_holder_name": "CREATIVITAE",
+            "identity_amount": 0
+        },
+        {
+            "bank_code": "BSI",
+            "collection_type": "POOL",
+            "transfer_amount": 15000,
+            "bank_branch": "Virtual Account",
+            "account_holder_name": "CREATIVITAE",
+            "identity_amount": 0
+        },
+        {
+            "bank_code": "BJB",
+            "collection_type": "POOL",
+            "transfer_amount": 15000,
+            "bank_branch": "Virtual Account",
+            "account_holder_name": "CREATIVITAE",
+            "identity_amount": 0
+        }
+    ],
+    "available_retail_outlets": [
+        {
+            "retail_outlet_name": "ALFAMART"
+        },
+        {
+            "retail_outlet_name": "INDOMARET"
+        }
+    ],
+    "available_ewallets": [
+        {
+            "ewallet_type": "OVO"
+        },
+        {
+            "ewallet_type": "DANA"
+        },
+        {
+            "ewallet_type": "SHOPEEPAY"
+        },
+        {
+            "ewallet_type": "LINKAJA"
+        },
+        {
+            "ewallet_type": "ASTRAPAY"
+        }
+    ],
+    "available_qr_codes": [
+        {
+            "qr_code_type": "QRIS"
+        }
+    ],
+    "available_direct_debits": [
+        {
+            "direct_debit_type": "DD_BRI"
+        }
+    ],
+    "available_paylaters": [
+        {
+            "paylater_type": "KREDIVO"
+        },
+        {
+            "paylater_type": "UANGME"
+        },
+        {
+            "paylater_type": "AKULAKU"
+        },
+        {
+            "paylater_type": "ATOME"
+        }
+    ],
+    "should_exclude_credit_card": false,
+    "should_send_email": true,
+    "success_redirect_url": "http://localhost:5173/",
+    "failure_redirect_url": "http://localhost:5173/",
+    "created": "2023-03-05T07:29:20.717Z",
+    "updated": "2023-03-05T07:29:20.717Z",
+    "currency": "IDR",
+    "customer": {
+        "given_names": "alfian",
+        "surname": "alfian",
+        "email": "alfianelsaarief@gmail.com",
+        "mobile_number": "+6281665577"
+    },
+    "customer_notification_preference": {
+        "invoice_created": [
+            "email"
+        ],
+        "invoice_reminder": [
+            "email"
+        ],
+        "invoice_expired": [
+            "email"
+        ],
+        "invoice_paid": [
+            "email"
+        ]
+    }
+}
+}
+```
+
+_Response (400 - Bad Request):_
+```json
+{
+    "status": 400,
+    "code": "API_VALIDATION_ERROR",
+    "message": "Invalid input data. Please check your request"
+}
+```
+
+## 19. GET /payment
+_Response (200 - OK):_
+```json
+{
+    "id": "640442c7ec41c6969b41386b",
+    "external_id": "1",
+    "user_id": "6403605c456fbecb3aff51c5",
+    "payment_method": "EWALLET",
+    "status": "PAID",
+    "merchant_name": "creativitae",
+    "merchant_profile_picture_url": "https://du8nwjtfkinx.cloudfront.net/xendit.png",
+    "amount": 15000,
+    "paid_amount": 15000,
+    "paid_at": "2023-03-05T07:30:13.223Z",
+    "payer_email": "alfianelsaarief@gmail.com",
+    "description": "Get Premium",
+    "expiry_date": "2023-03-06T07:20:39.316Z",
+    "invoice_url": "https://checkout-staging.xendit.co/web/640442c7ec41c6969b41386b",
+    "available_banks": [
+        {
+            "bank_code": "MANDIRI",
+            "collection_type": "POOL",
+            "transfer_amount": 15000,
+            "bank_branch": "Virtual Account",
+            "account_holder_name": "CREATIVITAE",
+            "identity_amount": 0
+        },
+        {
+            "bank_code": "BRI",
+            "collection_type": "POOL",
+            "transfer_amount": 15000,
+            "bank_branch": "Virtual Account",
+            "account_holder_name": "CREATIVITAE",
+            "identity_amount": 0
+        },
+        {
+            "bank_code": "BNI",
+            "collection_type": "POOL",
+            "transfer_amount": 15000,
+            "bank_branch": "Virtual Account",
+            "account_holder_name": "CREATIVITAE",
+            "identity_amount": 0
+        },
+        {
+            "bank_code": "PERMATA",
+            "collection_type": "POOL",
+            "transfer_amount": 15000,
+            "bank_branch": "Virtual Account",
+            "account_holder_name": "CREATIVITAE",
+            "identity_amount": 0
+        },
+        {
+            "bank_code": "BCA",
+            "collection_type": "POOL",
+            "transfer_amount": 15000,
+            "bank_branch": "Virtual Account",
+            "account_holder_name": "CREATIVITAE",
+            "identity_amount": 0
+        },
+        {
+            "bank_code": "SAHABAT_SAMPOERNA",
+            "collection_type": "POOL",
+            "transfer_amount": 15000,
+            "bank_branch": "Virtual Account",
+            "account_holder_name": "CREATIVITAE",
+            "identity_amount": 0
+        },
+        {
+            "bank_code": "CIMB",
+            "collection_type": "POOL",
+            "transfer_amount": 15000,
+            "bank_branch": "Virtual Account",
+            "account_holder_name": "CREATIVITAE",
+            "identity_amount": 0
+        },
+        {
+            "bank_code": "BSI",
+            "collection_type": "POOL",
+            "transfer_amount": 15000,
+            "bank_branch": "Virtual Account",
+            "account_holder_name": "CREATIVITAE",
+            "identity_amount": 0
+        },
+        {
+            "bank_code": "BJB",
+            "collection_type": "POOL",
+            "transfer_amount": 15000,
+            "bank_branch": "Virtual Account",
+            "account_holder_name": "CREATIVITAE",
+            "identity_amount": 0
+        }
+    ],
+    "available_retail_outlets": [
+        {
+            "retail_outlet_name": "ALFAMART"
+        },
+        {
+            "retail_outlet_name": "INDOMARET"
+        }
+    ],
+    "available_ewallets": [
+        {
+            "ewallet_type": "OVO"
+        },
+        {
+            "ewallet_type": "DANA"
+        },
+        {
+            "ewallet_type": "SHOPEEPAY"
+        },
+        {
+            "ewallet_type": "LINKAJA"
+        },
+        {
+            "ewallet_type": "ASTRAPAY"
+        }
+    ],
+    "available_qr_codes": [
+        {
+            "qr_code_type": "QRIS"
+        }
+    ],
+    "available_direct_debits": [
+        {
+            "direct_debit_type": "DD_BRI"
+        }
+    ],
+    "available_paylaters": [
+        {
+            "paylater_type": "KREDIVO"
+        },
+        {
+            "paylater_type": "UANGME"
+        },
+        {
+            "paylater_type": "AKULAKU"
+        },
+        {
+            "paylater_type": "ATOME"
+        }
+    ],
+    "should_exclude_credit_card": false,
+    "should_send_email": true,
+    "success_redirect_url": "http://localhost:5173/",
+    "failure_redirect_url": "http://localhost:5173/",
+    "created": "2023-03-05T07:20:40.065Z",
+    "updated": "2023-03-05T07:31:16.687Z",
+    "currency": "IDR",
+    "payment_channel": "DANA",
+    "payment_id": "ewc_5445d440-c0d0-4c40-9b58-f9a17ebbef9c",
+    "payment_method_id": "pm-140c7ac2-0308-44a9-989e-e4cef0412c61",
+    "customer": {
+        "given_names": "alfian",
+        "surname": "alfian",
+        "email": "alfianelsaarief@gmail.com",
+        "mobile_number": "+6281665577",
+        "customer_id": "a82621a3-8f7a-4731-a2f6-af34715128d6"
+    },
+    "customer_notification_preference": {
+        "invoice_created": [
+            "email"
+        ],
+        "invoice_reminder": [
+            "email"
+        ],
+        "invoice_expired": [
+            "email"
+        ],
+        "invoice_paid": [
+            "email"
+        ]
+    }
+}
+```
+
+_Response (404 - Bad Request):_
+```json
+{
+    "status": 404,
+    "code": "INVOICE_NOT_FOUND_ERROR",
+    "message": "Invoice ID 640442c7ec41c6969b41386 is invalid or not found. Please try again with a valid ID."
+}
+```
+
+
 
 ## Global Error
 
