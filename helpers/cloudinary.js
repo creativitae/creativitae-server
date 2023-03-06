@@ -1,3 +1,11 @@
+/*
+buat di .env
+CLOUD_NAME=dtaetrd2d
+CLOUDINARY_API_KEY=532554622789298
+CLOUDINARY_API_SECRET=rETyu9EXPuXZL9NfJrfORb2HlhQ
+PORT=3000
+*/
+
 const cloudinary = require('cloudinary')
 
 const dotenv = require('dotenv')
