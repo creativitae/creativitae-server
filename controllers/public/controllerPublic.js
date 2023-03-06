@@ -1,5 +1,6 @@
 const { compare } = require("../../helpers/bcryptjs");
 const { createToken } = require("../../helpers/jwt");
+const sendEmail = require("../../helpers/nodemailer");
 const {
   Admin,
   Customer,
@@ -56,6 +57,7 @@ class ControllerPublic {
         };
 
       let access_token = createToken({ id: customer.id, email: customer.email });
+        sendEmail(email)
       res
         .status(200)
         .json({ access_token, id: customer.id, username: customer.username, email: customer.email, isPremium: customer.isPremium });
