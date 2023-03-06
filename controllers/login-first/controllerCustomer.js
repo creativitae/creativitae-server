@@ -293,7 +293,7 @@ class ControllerCustomer {
         email: created.email,
       });
       // console.log({ access_token, id: created.id, username: created.username, email: created.email });
-      res.status(200).json({ access_token, id: created.id, username: created.username, email: created.email });
+      res.status(200).json({ access_token, id: created.id, username: created.username, email: created.email, isPremium: created.isPremium });
 
     } catch (err) {
       console.log(err);
