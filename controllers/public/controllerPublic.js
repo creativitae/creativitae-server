@@ -15,6 +15,7 @@ class ControllerPublic {
       let templateData = await Template.findAll();
       res.status(200).json(templateData);
     } catch (error) {
+      console.log(error)
       next(error);
     }
   }
@@ -80,7 +81,7 @@ class ControllerPublic {
   }
   static async adminLogin(req, res, next) {
     try {
-      const { email, password } = req.body;
+      const { email, password } = req.body
       if (!email) throw { status: 400, msg: "Please insert email" };
       if (!password) throw { status: 400, msg: "Please insert password" };
 
