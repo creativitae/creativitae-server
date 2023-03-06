@@ -32,10 +32,6 @@ beforeAll(async () => {
     AdminId: 1,
     status: "Active",
   });
-  mytemplate = await CustomerTemplate.create({
-    CustomerId: customer.id,
-    TemplateId: template1.id,
-  });
 });
 afterAll(async () => {
   await Customer.destroy({
@@ -49,38 +45,23 @@ afterAll(async () => {
     restartIdentity: true,
   });
   await Admin.destroy({ truncate: true, cascade: true, restartIdentity: true });
-  await CustomerTemplate.destroy({ truncate: true, cascade: true, restartIdentity: true });
+  await CustomerTemplate.destroy({
+    truncate: true,
+    cascade: true,
+    restartIdentity: true,
+  });
 });
-describe("GET /public/mytemplates/1", () => {
-  it("should return 401 status code when customer not login", async () => {
-    const response = await request(app).get("/public/mytemplates/1");
-    let expected = {
-      message: "Please login first",
-    };
-    expect(response.status).toBe(401);
-    expect(response.body).toEqual(expect.any(Object));
-    expect(response.body).toMatchObject(expected);
-  });
-  it("should return 401 status code when access token invalid", async () => {
-    const response = await request(app)
-      .get("/public/mytemplates/1")
-      .set("access_token", '12345')
-    let expected = {
-      message: "Invalid access token",
-    };
-    expect(response.status).toBe(401);
-    expect(response.body).toEqual(expect.any(Object));
-    expect(response.body).toMatchObject(expected);
-  });
-  it("should return 200 status code", async () => {
+describe("GET /public/mytemplates", () => {
+  it("should return 404 status code", async () => {
     let access_token = createToken({
       id: customer.id,
       email: customer.email,
     });
     const response = await request(app)
-      .get("/public/mytemplates/1")
+      .get("/public/mytemplates")
       .set("access_token", access_token);
-    expect(response.status).toBe(200);
+    expect(response.status).toBe(404);
     expect(response.body).toEqual(expect.any(Object));
+    expect(response.body).toEqual({message: 'Your template is empty'});
   });
 });

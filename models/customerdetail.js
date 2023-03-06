@@ -16,12 +16,14 @@ module.exports = (sequelize, DataTypes) => {
   }
   CustomerDetail.init({
     fullName: DataTypes.STRING,
+    title: DataTypes.STRING,
     summary: DataTypes.TEXT,
     educations: DataTypes.TEXT,
     workExperiences: DataTypes.TEXT,
     languages: DataTypes.TEXT,
     skills: DataTypes.TEXT,
     certifications: DataTypes.TEXT,
+    portfolios: DataTypes.TEXT,
     CustomerId: DataTypes.INTEGER
   }, {
     sequelize,

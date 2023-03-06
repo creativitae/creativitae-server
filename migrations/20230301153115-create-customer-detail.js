@@ -12,6 +12,9 @@ module.exports = {
       fullName: {
         type: Sequelize.STRING
       },
+      title: {
+        type: Sequelize.STRING
+      },
       summary: {
         type: Sequelize.TEXT
       },
@@ -28,6 +31,9 @@ module.exports = {
         type: Sequelize.TEXT
       },
       certifications: {
+        type: Sequelize.TEXT
+      },
+      portfolios: {
         type: Sequelize.TEXT
       },
       CustomerId: {

@@ -18,6 +18,13 @@ let mytemplate
 let template1
 let myDetail
 beforeAll(async () => {
+  await Customer.create({
+    username: "johndoe2",
+    email: "johndoe2@mail.com",
+    password: "12345",
+    phoneNumber: "08123456789",
+    address: "Jakarta",
+  });
   customer = await Customer.create({
     username: "johndoe",
     email: "johndoe@mail.com",
@@ -25,6 +32,7 @@ beforeAll(async () => {
     phoneNumber: "08123456789",
     address: "Jakarta",
   });
+
   admin = await Admin.create({
     username: "johndoe",
     email: "johndoe@mail.com",
@@ -83,77 +91,18 @@ afterAll(async () => {
   });
 });
 describe("GET /public/mydetail", () => {
-  it("should return 200 status code", async () => {
+  it("should return 401 status code when customer invalid", async () => {
     let access_token = createToken({
-      id: customer.id,
+      id: 2,
       email: customer.email,
     });
     const response = await request(app)
       .get("/public/mydetail")
       .set("access_token", access_token);
-    expect(response.status).toBe(200);
-    expect(response.body).toEqual(expect.any(Object));
-    expect(response.body).toHaveProperty("id", myDetail.id);
-    expect(response.body).toHaveProperty("fullName", myDetail.fullName);
-    expect(response.body).toHaveProperty("summary", myDetail.summary);
-    expect(response.body).toHaveProperty("educations", myDetail.educations);
-    expect(response.body).toHaveProperty(
-      "workExperiences",
-      myDetail.workExperiences
-    );
-    expect(response.body).toHaveProperty("languages", myDetail.languages);
-    expect(response.body).toHaveProperty("skills", myDetail.skills);
-    expect(response.body).toHaveProperty(
-      "certifications",
-      myDetail.certifications
-    );
-    expect(response.body).toHaveProperty("CustomerId", myDetail.CustomerId);
-    expect(response.body).toHaveProperty("createdAt", expect.any(String));
-    expect(response.body).toHaveProperty("updatedAt", expect.any(String));
-    expect(response.body.Customer).toHaveProperty("id", myDetail.id);
-    expect(response.body.Customer).toHaveProperty(
-      "username",
-      expect.any(String)
-    );
-    expect(response.body.Customer).toHaveProperty("email", expect.any(String));
-    expect(response.body.Customer).toHaveProperty(
-      "password",
-      expect.any(String)
-    );
-    expect(response.body.Customer).toHaveProperty(
-      "phoneNumber",
-      expect.any(String)
-    );
-    expect(response.body.Customer).toHaveProperty(
-      "address",
-      expect.any(String)
-    );
-    expect(response.body.Customer).toHaveProperty(
-      "createdAt",
-      expect.any(String)
-    );
-    expect(response.body.Customer).toHaveProperty(
-      "updatedAt",
-      expect.any(String)
-    );
-  });
-  it("should return 401 status code when customer not login", async () => {
-    const response = await request(app).get("/public/mydetail");
     let expected = {
-      message: "Please login first",
+      message: "Customer not found",
     };
-    expect(response.status).toBe(401);
-    expect(response.body).toEqual(expect.any(Object));
-    expect(response.body).toMatchObject(expected);
-  });
-  it("should return 401 status code when access token invalid", async () => {
-    const response = await request(app)
-      .get("/public/mydetail")
-      .set("access_token", "12345");
-    let expected = {
-      message: "Invalid access token",
-    };
-    expect(response.status).toBe(401);
+    expect(response.status).toBe(404);
     expect(response.body).toEqual(expect.any(Object));
     expect(response.body).toMatchObject(expected);
   });

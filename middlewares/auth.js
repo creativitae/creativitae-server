@@ -29,7 +29,6 @@ const authenticationAdmin = async (req, res, next) => {
 
     if (!admin) throw { status: 401, msg: "Invalid access token" };
     req.admin = admin;
-
     next();
   } catch (error) {
     next(error);

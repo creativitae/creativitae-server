@@ -68,6 +68,7 @@ afterAll(async () => {
   });
 });
 describe("post /public/mydetail", () => {
+  
   it("should return 201 status code", async () => {
     let access_token = createToken({
       id: customer.id,
@@ -141,5 +142,16 @@ describe("post /public/mydetail", () => {
       expect(response.status).toBe(403)
       expect(response.body).toEqual(expect.any(Object))
       expect(response.body).toMatchObject({message: "You already have your detail, you can edit it instead"})
+  });
+  it("should return 401 status code when access token invalid", async () => {
+    const response = await request(app)
+      .post("/public/mydetail")
+      .set("access_token", '12345')
+    let expected = {
+      message: "Invalid access token",
+    };
+    expect(response.status).toBe(401);
+    expect(response.body).toEqual(expect.any(Object));
+    expect(response.body).toMatchObject(expected);
   });
 });

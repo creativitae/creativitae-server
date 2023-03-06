@@ -57,7 +57,7 @@ class ControllerPublic {
       let access_token = createToken({ id: customer.id, email: customer.email });
       res
         .status(200)
-        .json({ access_token, id: customer.id, username: customer.username, email: customer.email });
+        .json({ access_token, id: customer.id, username: customer.username, email: customer.email, isPremium: customer.isPremium });
     } catch (err) {
       next(err);
     }

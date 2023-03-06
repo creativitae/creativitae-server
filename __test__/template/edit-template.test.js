@@ -144,4 +144,20 @@ describe("PUT /templates/:templateId", () => {
     expect(response.body).toEqual(expect.any(Object));
     expect(response.body).toMatchObject(expected);
   });
+  it("should return 401 status code when access token invalid", async () => {
+    let body = {
+      name: "template",
+      image: "image",
+      isPremium: true
+  }
+    const response = await request(app)
+      .put("/templates/1")
+      .set("access_token", '12345')
+    let expected = {
+      message: "Invalid access token",
+    };
+    expect(response.status).toBe(401);
+    expect(response.body).toEqual(expect.any(Object));
+    expect(response.body).toMatchObject(expected);
+  });
 });
