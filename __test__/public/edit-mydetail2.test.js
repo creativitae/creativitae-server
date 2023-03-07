@@ -90,12 +90,18 @@ describe("put /public/mydetail", () => {
     });
     let myDetail = {
       fullName: "",
-      summary: "",
-      educations: "",
+      title: "",
+      summary:"",
+      educations:
+        '',
       workExperiences: "",
-      languages: "",
-      skills: "",
-      certifications: "",
+      languages: '',
+      skills:
+        '',
+      certifications:
+        "",
+        portfolios: "",
+        socialMedias: "",
       CustomerId: 1,
     };
     const response = await request(app)

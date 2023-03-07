@@ -49,7 +49,7 @@ class ControllerPublic {
       if(!user) {
         throw {
           status : 401,
-          msg : 'not found'
+          msg : 'Customer not found'
         }
       }
       user.isValid = true
@@ -59,7 +59,7 @@ class ControllerPublic {
         msg : 'Success Register'
       })
     } catch (error) {
-      console.log(error);
+      next(error)
     }
   }
   static async customerLogin(req, res, next) {
@@ -69,7 +69,6 @@ class ControllerPublic {
       if (!password) throw { status: 400, msg: "Please insert password" };
 
       let customer = await Customer.findOne({ where: { email } });
-      console.log(customer);
       if (!customer)
         throw {
           status: 400,
@@ -77,7 +76,8 @@ class ControllerPublic {
         };
         if(customer.isValid === false) {
           throw {
-            msg : 'Not Verify'
+            status: 400,
+            msg : 'Please verify your e-mail'
           }
         }
       let isValidPassword = compare(password, customer.password);
@@ -93,7 +93,6 @@ class ControllerPublic {
         .status(200)
         .json({ access_token, id: customer.id, username: customer.username, email: customer.email, isPremium: customer.isPremium });
     } catch (err) {
-      console.log(err);
       next(err);
     }
   }

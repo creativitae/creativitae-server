@@ -75,6 +75,7 @@ describe("post /public/mydetail", () => {
     });
     let myDetail = {
       fullName: "",
+      title: "",
       summary:"",
       educations:
         '',
@@ -84,6 +85,8 @@ describe("post /public/mydetail", () => {
         '',
       certifications:
         "",
+        portfolios: "",
+        socialMedias: "",
       CustomerId: 1,
     };
     const response = await request(app)
