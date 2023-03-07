@@ -1,5 +1,6 @@
 const multer = require('multer')
 function errorHandler(err, req, res, next) {
+    console.log(err,'ni err dari error handler');
     if (err.name === 'SequelizeValidationError' || err.name === 'SequelizeUniqueConstraintError') {
         res.status(400).json({
             errorsMessages: err.errors.map(el => ({ message: el.message }))
@@ -18,7 +19,11 @@ function errorHandler(err, req, res, next) {
     //     res.status(400).json({
     //         message: 'Unsupported file format, please use file with format png/jpeg'
     //     })
-    }else {
+    
+    }else if (err.name === 'Not Verify') {
+        res.status(400).json({message :'Verify Your Acount'})
+    }
+    else {
         console.log(err);
         res.status(500).json({ message: 'Internal server error' })
     }

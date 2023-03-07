@@ -54,10 +54,10 @@ class ControllerPublic {
       }
       user.isValid = true
       await user.save()
-      res.redirect(`http://localhost:3000/public/login`)
-      res.status(200).json({
-        msg : 'Success Register'
-      })
+      res.redirect(`http://localhost:5173/login`)
+      // res.status(200).json({
+      //   msg : 'Success Register'
+      // })
     } catch (error) {
       next(error)
     }
@@ -76,8 +76,8 @@ class ControllerPublic {
         };
         if(customer.isValid === false) {
           throw {
-            status: 400,
-            msg : 'Please verify your e-mail'
+            status : 400,
+            msg : 'Not Verify'
           }
         }
       let isValidPassword = compare(password, customer.password);
