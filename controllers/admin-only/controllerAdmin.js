@@ -59,6 +59,7 @@ class ControllerAdmin {
   }
   static async patchTemplate(req, res, next) {
     let editedTemplate;
+    // console.log(req.body);
     try {
       let templateData = await Template.findOne(
         {

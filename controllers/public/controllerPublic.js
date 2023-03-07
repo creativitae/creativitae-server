@@ -1,6 +1,7 @@
 const { compare } = require("../../helpers/bcryptjs");
 const { createToken } = require("../../helpers/jwt");
 const sendEmail = require("../../helpers/nodemailer");
+const randomString = require("../../helpers/randomString")
 const {
   Admin,
   Customer,
@@ -23,6 +24,7 @@ class ControllerPublic {
   static async customerRegister(req, res, next) {
     try {
       const { username, email, password, phoneNumber, address } = req.body;
+      const uniqueString = randomString()
       let customer = await Customer.create({
         username,
         email,
@@ -30,10 +32,34 @@ class ControllerPublic {
         isPremium: false,
         phoneNumber,
         address,
+        isValid:false,
+        uniqueString
       });
+      sendEmail(email,uniqueString)
       res.status(201).json({ customer });
     } catch (err) {
       next(err);
+    }
+  }
+  static async verify(req,res) {
+    try {
+      const {uniqueString} = req.params
+      console.log(uniqueString);
+      const user = await Customer.findOne({where : {uniqueString}})
+      if(!user) {
+        throw {
+          status : 401,
+          msg : 'not found'
+        }
+      }
+      user.isValid = true
+      await user.save()
+      res.redirect(`http://localhost:3000/public/login`)
+      res.status(200).json({
+        msg : 'Success Register'
+      })
+    } catch (error) {
+      console.log(error);
     }
   }
   static async customerLogin(req, res, next) {
@@ -43,12 +69,17 @@ class ControllerPublic {
       if (!password) throw { status: 400, msg: "Please insert password" };
 
       let customer = await Customer.findOne({ where: { email } });
+      console.log(customer);
       if (!customer)
         throw {
           status: 400,
           msg: "Error invalid email or password",
         };
-
+        if(customer.isValid === false) {
+          throw {
+            msg : 'Not Verify'
+          }
+        }
       let isValidPassword = compare(password, customer.password);
       if (!isValidPassword)
         throw {
@@ -57,7 +88,7 @@ class ControllerPublic {
         };
 
       let access_token = createToken({ id: customer.id, email: customer.email });
-        sendEmail(email)
+       
       res
         .status(200)
         .json({ access_token, id: customer.id, username: customer.username, email: customer.email, isPremium: customer.isPremium });
@@ -66,6 +97,7 @@ class ControllerPublic {
       next(err);
     }
   }
+
   static async adminRegister(req, res, next) {
     try {
       const { username, email, password, phoneNumber, address } = req.body;

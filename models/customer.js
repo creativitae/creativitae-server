@@ -87,7 +87,9 @@ module.exports = (sequelize, DataTypes) => {
           msg: 'Customer address is required'
         }
       }
-    }
+    },
+    isValid : DataTypes.BOOLEAN,
+    uniqueString : DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Customer',
