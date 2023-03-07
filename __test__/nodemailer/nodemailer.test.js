@@ -27,14 +27,16 @@ describe("GET /public/verify/:uniqueString",() => {
         let input = {
             email: "johndoe@mail.com", 
             password: "12345",
+            uniqueString: '9318721219'
         }
+        // console.log(input);
         const response = await request(app)
-        .post('/public/login')
+        .post('/public/register')
         .send(input)
-
+        // console.log(response);
         expect(response.status).toBe(400)
         expect(response.body).toBeInstanceOf(Object)
-        expect(response.status).toHaveProperty('msg','Not Verfify')
+        expect(response.body).toHaveProperty('msg','Not Verify')
         
     })
 })
