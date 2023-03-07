@@ -18,6 +18,14 @@ function errorHandler(err, req, res, next) {
     //     res.status(400).json({
     //         message: 'Unsupported file format, please use file with format png/jpeg'
     //     })
+    }else if (err.message == 'Request failed with status code 403'){
+        res.status(403).json({message: 'Not enough permissions from linkedin'})
+    }else if (err.message == 'Request failed with status code 401'){
+        // console.log('masuk');
+        res.status(401).json({message: 'Invalid access token linkedin'})
+    }else if (err.message == 'Request failed with status code 400'){
+        // console.log('masuk');
+        res.status(400).json({message: 'linkedin parameter is missing'})
     }else {
         console.log(err);
         res.status(500).json({ message: 'Internal server error' })
