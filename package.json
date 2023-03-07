@@ -4,7 +4,7 @@
   "description": "server repo for creativitae app",
   "main": "index.js",
   "scripts": {
-    "test": "jest --detectOpenHandles --forceExit --runInBand --silent --coverage",
+    "test": "jest --detectOpenHandles --forceExit --runInBand --coverage",
     "start": "node bin/www"
   },
   "repository": {

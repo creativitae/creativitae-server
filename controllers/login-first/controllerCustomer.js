@@ -26,7 +26,7 @@ class ControllerCustomer {
         },
         include: Template
       })
-      if (!myTemplateData.length) throw {status: 404, msg: 'Your template is empty'}
+      if (!myTemplateData.length) throw { status: 404, msg: 'Your template is empty' }
       res.status(200).json(myTemplateData)
     } catch (error) {
       next(error)
@@ -90,7 +90,7 @@ class ControllerCustomer {
     }
   }
   // static async patchPremiumUser(req, res, next) {
-    
+
   // }
   static async getCustomerDetail(req, res, next) {
     try {
@@ -100,7 +100,7 @@ class ControllerCustomer {
         },
         include: Customer
       })
-      if (!custDetail) throw {status: 404, msg: 'Customer not found'}
+      if (!custDetail) throw { status: 404, msg: 'Customer not found' }
       res.status(200).json(custDetail)
     } catch (error) {
       next(error)
@@ -203,20 +203,34 @@ class ControllerCustomer {
       let redirect_uri = `${BASE_URL}/callbacks`;
       let client_id = "86o3pfdquzum55"
       let client_secret = "m0mOlmIFPVGwZLud"
-      let { data } = await axios({
-        method: 'post',
-        url: 'https://www.linkedin.com/oauth/v2/accessToken',
-        headers: {
-          Authorization: 'Basic ' + btoa(client_id + ':' + client_secret),
-          "Content-Type": 'application/x-www-form-urlencoded'
-        },
-        data: {
+      // let { data } = await axios({
+      //   method: 'post',
+      //   url: 'https://www.linkedin.com/oauth/v2/accessToken',
+      //   headers: {
+      //     Authorization: 'Basic ' + btoa(client_id + ':' + client_secret),
+      //     "Content-Type": 'application/x-www-form-urlencoded'
+      //   },
+      //   data: {
+      //     code,
+      //     redirect_uri,
+      //     grant_type: 'authorization_code',
+      //     client_secret
+      //   },
+      // })
+      let { data } = await axios.post('https://www.linkedin.com/oauth/v2/accessToken',
+        {
           code,
           redirect_uri,
           grant_type: 'authorization_code',
           client_secret
         },
-      })
+        {
+          headers: {
+            Authorization: 'Basic ' + btoa(client_id + ':' + client_secret),
+            "Content-Type": 'application/x-www-form-urlencoded'
+          }
+        }
+      )
       res.status(200).json({ data })
       // console.log(data, 'ini data');
     } catch (err) {
@@ -228,18 +242,25 @@ class ControllerCustomer {
     try {
       let token = req.body.code
       // console.log(token, 'ini token di getme');
-      let { data } = await axios({
-        method: 'get',
-        url: `https://api.linkedin.com/v2/me`,
+      // let { data } = await axios({
+      //   method: 'get',
+      //   url: `https://api.linkedin.com/v2/me`,
+      //   headers: {
+      //     Authorization: 'Bearer ' + token,
+      //     "Content-Type": 'application/json'
+      //   },
+      // })
+      let {data} = await axios.get('https://api.linkedin.com/v2/me',
+      {
         headers: {
           Authorization: 'Bearer ' + token,
           "Content-Type": 'application/json'
-        },
+        }
       })
       // console.log(data, 'userdata');
       res.status(200).json({ username: `${data.localizedFirstName} ${data.localizedLastName}` })
     } catch (err) {
-      console.log(err.response.data, 'ERR');
+      console.log(err, 'ERR');
     }
   }
 
