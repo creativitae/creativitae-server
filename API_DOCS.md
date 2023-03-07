@@ -6,11 +6,12 @@ List of available endpoints :
 
 1. `POST /register`
 2. `POST /login`
-3. `POST /public/register`
-4. `POST /public/login`
-5. `POST /public/google-login`
-6. `POST /public/linkedin-login`
-7. `GET /templates`
+3.  `GET/verify/:uniqueString`
+4. `POST /public/register`
+5. `POST /public/login`
+6. `POST /public/google-login`
+7. `POST /public/linkedin-login`
+8. `GET /templates`
 
 Routes below need authentication :
 
