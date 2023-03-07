@@ -14,9 +14,9 @@ class ControllerPublic {
   static async getTemplate(req, res, next) {
     try {
       let templateData = await Template.findAll();
+      if (!templateData.length) throw {status: 404, msg: 'Template not found'}
       res.status(200).json(templateData);
     } catch (error) {
-      console.log(error)
       next(error);
     }
   }

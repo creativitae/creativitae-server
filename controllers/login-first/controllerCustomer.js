@@ -112,8 +112,9 @@ class ControllerCustomer {
       if (findCustomerDetail) {
         throw { status: 403, msg: "You already have your detail, you can edit it instead" }
       }
-      let { fullName, summary, educations, workExperiences, languages, skills, certifications } = req.body;
+      let { fullName, title, summary, educations, workExperiences, languages, skills, certifications, portfolios, socialMedias } = req.body;
       if (!fullName) fullName = ''
+      if (!title) title = ''
       if (!summary) summary = ''
       if (!educations) educations = '[{}]'
       else educations = JSON.stringify(educations)
@@ -125,9 +126,13 @@ class ControllerCustomer {
       else skills = JSON.stringify(skills)
       if (!certifications) certifications = '[{}]'
       else certifications = JSON.stringify(certifications)
+      if (!portfolios) portfolios = '[{}]'
+      else portfolios = JSON.stringify(portfolios)
+      if (!socialMedias) socialMedias = '[{}]'
+      else socialMedias = JSON.stringify(socialMedias)
 
       let custData = await CustomerDetail.create({
-        fullName, summary, educations, workExperiences, languages, skills, certifications, CustomerId: req.customer.id
+        fullName, title, summary, educations, workExperiences, languages, skills, certifications, portfolios, socialMedias, CustomerId: req.customer.id
       });
       res.status(201).json(custData);
     } catch (error) {
@@ -137,8 +142,9 @@ class ControllerCustomer {
   }
   static async editCustomerDetail(req, res, next) {
     try {
-      let { fullName, summary, educations, workExperiences, languages, skills, certifications } = req.body;
+      let { fullName, title, summary, educations, workExperiences, languages, skills, certifications, portfolios, socialMedias } = req.body;
       if (!fullName) fullName = ''
+      if (!title) title = ''
       if (!summary) summary = ''
       if (!educations) educations = '[{}]'
       else educations = JSON.stringify(educations)
@@ -150,6 +156,10 @@ class ControllerCustomer {
       else skills = JSON.stringify(skills)
       if (!certifications) certifications = '[{}]'
       else certifications = JSON.stringify(certifications)
+      if (!portfolios) portfolios = '[{}]'
+      else portfolios = JSON.stringify(portfolios)
+      if (!socialMedias) socialMedias = '[{}]'
+      else socialMedias = JSON.stringify(socialMedias)
 
       let customerDetailData = await CustomerDetail.findOne(
         { where: { CustomerId: req.customer.id } },
@@ -158,7 +168,7 @@ class ControllerCustomer {
       if (!customerDetailData) throw { status: 404, msg: "You don't have detail yet, please create one" };
       await CustomerDetail.update(
         {
-          fullName, summary, educations, workExperiences, languages, skills, certifications
+          fullName, title, summary, educations, workExperiences, languages, skills, certifications, portfolios, socialMedias
         },
         {
           where: {

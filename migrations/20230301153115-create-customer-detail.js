@@ -36,6 +36,9 @@ module.exports = {
       portfolios: {
         type: Sequelize.TEXT
       },
+      socialMedias: {
+        type: Sequelize.TEXT
+      },
       CustomerId: {
         type: Sequelize.INTEGER,
         references: {

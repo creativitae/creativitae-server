@@ -96,4 +96,5 @@ describe("GET /templates", () => {
     expect(response.body).toEqual(expect.any(Array));
     expect(response.body).toMatchObject(expected);
   });
+  
 });
