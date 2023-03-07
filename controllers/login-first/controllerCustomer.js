@@ -198,7 +198,7 @@ class ControllerCustomer {
 
   static async getAuthToken(req, res, next) {
     try {
-      // console.log(req.body, 'ini req body');
+      console.log(req.body, 'ini req body');
       let code = req.body.code
       let redirect_uri = `${BASE_URL}/callbacks`;
       let client_id = "86o3pfdquzum55"
@@ -303,6 +303,7 @@ class ControllerCustomer {
       if (req.method == 'POST') {
         const urls = []
         const files = req.files
+        console.log(files);
         for (const file of files) {
           const { path } = file
           const newPath = await uploader(path)
