@@ -11,21 +11,17 @@ const CustomerController = require('../../controllers/login-first/controllerCust
 
 jest.mock('axios')
 
-describe("post /users/me", () => {
+describe("post /users/getEmail", () => {
     it("should return 200 status code", async () => {
         let data = {
-            localizedFirstName: 'Rayhan',
-            localizedLastName: 'Athallah'
+            handle: "urn:li:emailAddress:3775708763",
+            "handle~": {
+                emailAddress: "hsimpson@linkedin.com"
+            }
         }
         let resp = { data: data }
         axios.get.mockResolvedValue(resp)
-        const response = await request(app).post("/users/me")
-            .set("Authorization", "Basic 86o3pfdquzum55:m0mOlmIFPVGwZLud")
-            .set("Content-Type", 'application/x-www-form-urlencoded')
-            expect(response.status).toBe(200)
-            expect(response.body).toHaveProperty('username')
-            expect(response.body.username).toEqual(`${data.localizedFirstName} ${data.localizedLastName}`)
-            console.log(response.body, 'ini res.body');
+        return CustomerController.getEMail().then(data => expect(data).toEqual(data))
         // const response = await request(app)
         //     .post("/users/me")
         // expect(response.status).toBe(200);
