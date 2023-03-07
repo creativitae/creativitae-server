@@ -18,8 +18,22 @@ describe("post /users/linkedin-request-auth", () => {
             code: "AQRuR3C4qjTs3V0oyT4thzU-HX0NyIN3-93Mx6CtFrVlCgnr-QhJWauRYwTRtCq-PMLTdcEQA94NDysx6IpMUOd-xyj2R1T0pWbEQfiJ40UGkWNIUjlr5RhTkQmL01-CzCXGHh0xMCBN3wNFbjEd4clqcs51nIO724SiEJeckn0ttXEfoFQeelh_1leAMtqFX9HnKlUI9171x8qSE2k"
         }
         let resp = { data: data }
+        let redirect_uri = `${BASE_URL}/callbacks`;
+        let client_id = "86o3pfdquzum55"
+        let client_secret = "m0mOlmIFPVGwZLud"
+        let headers = {
+            Authorization: 'Basic ' + btoa(client_id + ':' + client_secret),
+            "Content-Type": 'application/x-www-form-urlencoded'
+        }
         axios.post.mockResolvedValue(resp)
-        return CustomerController.getAuthToken().then(data => expect(data).toEqual(data))
+        const response = await request(app).post("/users/linkedin-user-auth")
+            .set("Authorization", "Basic 86o3pfdquzum55:m0mOlmIFPVGwZLud")
+            .set("Content-Type", 'application/x-www-form-urlencoded')
+            .send(data)
+            expect(response.status).toBe(200)
+            expect(response.body).toHaveProperty('data')
+            expect(response.body.data).toEqual(data)
+            console.log(response.body, 'ini res.body');
         // expect(response.status).toBe(200);
         // expect(response.body).toEqual(expect.any(Object));
     });
