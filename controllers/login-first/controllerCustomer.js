@@ -1,5 +1,6 @@
 const { compare } = require("../../helpers/bcryptjs");
 const { createToken } = require("../../helpers/jwt");
+const randomString = require("../../helpers/randomString")
 const {
   Admin,
   Customer,
@@ -186,7 +187,7 @@ class ControllerCustomer {
   }
   static async LinkedinLogin(req, res, next) {
     try {
-      let client_id = "86o3pfdquzum55";
+      let client_id = process.env.CLIENT_ID;
       let redirect_uri = `${BASE_URL}/callbacks`;
       let state = (Math.random() + 1).toString(36).substring(7);
       let scope = 'r_emailaddress r_liteprofile';
@@ -210,8 +211,8 @@ class ControllerCustomer {
       console.log(req.body, 'ini req body');
       let code = req.body.code
       let redirect_uri = `${BASE_URL}/callbacks`;
-      let client_id = "86o3pfdquzum55"
-      let client_secret = "m0mOlmIFPVGwZLud"
+      let client_id = process.env.CLIENT_ID
+      let client_secret = process.env.CLIENT_SECRET
       // let { data } = await axios({
       //   method: 'post',
       //   url: 'https://www.linkedin.com/oauth/v2/accessToken',
@@ -244,12 +245,14 @@ class ControllerCustomer {
       // console.log(data, 'ini data');
     } catch (err) {
       console.log(err, 'this');
+      next(err)
     }
   }
 
   static async getMe(req, res, next) {
     try {
       let token = req.body.code
+      // let token = 'aaa'
       // console.log(token, 'ini token di getme');
       // let { data } = await axios({
       //   method: 'get',
@@ -259,32 +262,42 @@ class ControllerCustomer {
       //     "Content-Type": 'application/json'
       //   },
       // })
-      let {data} = await axios.get('https://api.linkedin.com/v2/me',
-      {
-        headers: {
-          Authorization: 'Bearer ' + token,
-          "Content-Type": 'application/json'
-        }
-      })
+      let { data } = await axios.get('https://api.linkedin.com/v2/me',
+        {
+          headers: {
+            Authorization: 'Bearer ' + token,
+            "Content-Type": 'application/json'
+          }
+        })
       // console.log(data, 'userdata');
       res.status(200).json({ username: `${data.localizedFirstName} ${data.localizedLastName}` })
     } catch (err) {
       console.log(err, 'ERR');
+      next(err)
     }
   }
 
   static async getEMail(req, res, next) {
     try {
       let token = req.body.code
+      
       // console.log(token, 'ini token');
-      let { data } = await axios({
-        method: 'get',
-        url: `https://api.linkedin.com/v2/emailAddress?q=members&projection=(elements*(handle~))`,
-        headers: {
-          Authorization: 'Bearer ' + token,
-          "Content-Type": 'application/json'
-        },
-      })
+      // let { data } = await axios({
+      //   method: 'get',
+      //   url: `https://api.linkedin.com/v2/emailAddress?q=members&projection=(elements*(handle~))`,
+      //   headers: {
+      //     Authorization: 'Bearer ' + token,
+      //     "Content-Type": 'application/json'
+      //   },
+      // })
+      let { data } = await axios.get(`https://api.linkedin.com/v2/emailAddress?q=members&projection=(elements*(handle~))`,
+        {
+          headers: {
+            Authorization: 'Bearer ' + token,
+            "Content-Type": 'application/json'
+          }
+        }
+      )
       let dataEmail = data.elements[0]
       let emailLinkedin = dataEmail['handle~'].emailAddress
       // console.log({ email: emailLinkedin });
@@ -292,7 +305,8 @@ class ControllerCustomer {
       // console.log(data2['handle~'].emailAddress , 'userdata');
       res.status(200).json({ email: emailLinkedin })
     } catch (err) {
-      console.log(err.response.data, 'ERRs');
+      console.log(err.name);
+      next(err)
     }
   }
 
@@ -300,7 +314,8 @@ class ControllerCustomer {
     try {
       // console.log('masukkk di register or login');
       let { payload } = req.body
-      // console.log(payload, 'ini payload');
+      const uniqueString = randomString()
+      console.log(payload, 'ini payload');
       let [created] = await Customer.findOrCreate({
         where: { email: payload.email },
         defaults: {
@@ -309,7 +324,8 @@ class ControllerCustomer {
           password: "customer-linkedin-login",
           isPremium: false,
           phoneNumber: '0902930293',
-          address: 'jl. aaaaa no.23'
+          address: 'jl. aaaaa no.23',
+          isValid:false
         },
         hooks: false,
       });
