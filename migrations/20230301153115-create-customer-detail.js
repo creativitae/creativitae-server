@@ -39,6 +39,9 @@ module.exports = {
       socialMedias: {
         type: Sequelize.TEXT
       },
+      profilePicture: {
+        type: Sequelize.STRING
+      },
       CustomerId: {
         type: Sequelize.INTEGER,
         references: {

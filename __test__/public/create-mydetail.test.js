@@ -154,4 +154,19 @@ describe("post /public/mydetail", () => {
     expect(response.body).toEqual(expect.any(Object));
     expect(response.body).toMatchObject(expected);
   });
+  it("should return 401 status code when access token invalid", async () => {
+    let access_token = createToken({
+      id: 2000,
+      email: customer.email,
+    });
+    const response = await request(app)
+      .post("/public/mydetail")
+      .set("access_token", access_token)
+    let expected = {
+      message: "Invalid access token",
+    };
+    expect(response.status).toBe(401);
+    expect(response.body).toEqual(expect.any(Object));
+    expect(response.body).toMatchObject(expected);
+  });
 });

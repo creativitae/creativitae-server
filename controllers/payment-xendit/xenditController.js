@@ -70,9 +70,9 @@ class xenditController {
       const Invoice = await i.getInvoice({
         invoiceID: receiptData.Order.name,
       });
-      let status = "";
-      if (Invoice.status === "PAID") status = true;
-      else status = false;
+      // let status = "";
+      // if (Invoice.status === "PAID") status = true;
+      // else status = false;
       await Order.update(
         {
           statusPayment: status,
@@ -87,6 +87,7 @@ class xenditController {
         where: { CustomerId: req.customer.id },
         include: Order,
       });
+      if (!receiptOrder) throw { status: 400, msg: 'Receipt not found'}
       res.status(200).json(receiptOrder);
     } catch (error) {
       if (error.status === 404) {
