@@ -139,13 +139,12 @@ class ControllerPublic {
   }
   static async postGoogleLogin(req, res, next) {
     try {
+      if (!req.body.googleToken) throw {status: 404, msg: 'Customer not found'}
         const ticket = await client.verifyIdToken({
             idToken: req.body.googleToken, 
           });
           const payload = ticket.getPayload();
           const userid = payload["sub"];
-          // If request specified a G Suite domain:
-          // const domain = payload['hd'];
           const [user, created] = await Customer.findOrCreate({
             where: { email: payload.email },
             defaults: {
