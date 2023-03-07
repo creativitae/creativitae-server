@@ -11,6 +11,14 @@ function errorHandler(err, req, res, next) {
         })
     } else if (err.status) {
         res.status(err.status).json({ message: err.msg })
+    // } else if (err.name == 'MulterError' && err.message == 'File too large') {
+    //     res.status(400).json({
+    //         message: 'Image too large, please use image with 1mb size'
+    //     })
+    // }else if (err.name === 'unsupported file format') {
+    //     res.status(400).json({
+    //         message: 'Unsupported file format, please use file with format png/jpeg'
+    //     })
     }else if (err.message == 'Request failed with status code 403'){
         res.status(403).json({message: 'Not enough permissions from linkedin'})
     }else if (err.message == 'Request failed with status code 401'){
