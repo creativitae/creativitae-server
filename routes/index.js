@@ -8,6 +8,7 @@ const router = express.Router()
 
 router.post('/register', ControllerPublic.adminRegister)
 router.post('/login', ControllerPublic.adminLogin)
+router.post('/google-login', ControllerPublic.postGoogleLogin)
 router.use('/public', publicRoute)
 router.use('/templates', templateRoute)
 router.use('/users', userRoute)

@@ -11,6 +11,8 @@ const {
   Receipt,
   Template,
 } = require("../../models");
+const { OAuth2Client } = require("google-auth-library");
+const client = new OAuth2Client("845864112364-eoemjmb6b361fcuepdv0pffk5dhrent9.apps.googleusercontent.com");
 class ControllerPublic {
   static async getTemplate(req, res, next) {
     try {
@@ -44,7 +46,6 @@ class ControllerPublic {
   static async verify(req,res) {
     try {
       const {uniqueString} = req.params
-      console.log(uniqueString);
       const user = await Customer.findOne({where : {uniqueString}})
       if(!user) {
         throw {
@@ -55,9 +56,6 @@ class ControllerPublic {
       user.isValid = true
       await user.save()
       res.redirect(`http://localhost:5173/login`)
-      // res.status(200).json({
-      //   msg : 'Success Register'
-      // })
     } catch (error) {
       next(error)
     }
@@ -136,8 +134,35 @@ class ControllerPublic {
         .status(200)
         .json({ access_token, id: admin.id, username: admin.username });
     } catch (err) {
-      console.log(err)
       next(err);
+    }
+  }
+  static async postGoogleLogin(req, res, next) {
+    try {
+        const ticket = await client.verifyIdToken({
+            idToken: req.body.googleToken, 
+          });
+          const payload = ticket.getPayload();
+          const userid = payload["sub"];
+          // If request specified a G Suite domain:
+          // const domain = payload['hd'];
+          const [user, created] = await Customer.findOrCreate({
+            where: { email: payload.email },
+            defaults: {
+              username: payload.given_name,
+              email: payload.email,
+              password: "bihunkari",
+              phoneNumber: "012345",
+              address: "jakarta",
+            },
+            hooks: false,
+          }) 
+          let access_token = createToken({ id: user.id, email: user.email });
+        res
+        .status(200)
+        .json({ access_token, id: user.id, username: user.username, email: user.email, isPremium: false });
+    } catch (error) {
+        next(error)
     }
   }
 }

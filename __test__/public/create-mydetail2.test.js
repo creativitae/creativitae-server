@@ -77,16 +77,13 @@ describe("post /public/mydetail", () => {
       fullName: "",
       title: "",
       summary:"",
-      educations:
-        '',
+      educations:'',
       workExperiences: "",
       languages: '',
-      skills:
-        '',
-      certifications:
-        "",
-        portfolios: "",
-        socialMedias: "",
+      skills: '',
+      certifications: "",
+      portfolios: "",
+      socialMedias: "",
       CustomerId: 1,
     };
     const response = await request(app)

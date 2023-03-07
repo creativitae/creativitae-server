@@ -7,9 +7,7 @@ const publicRoute = express.Router()
 // Auth
 publicRoute.post('/register', ControllerPublic.customerRegister)
 publicRoute.post('/login', ControllerPublic.customerLogin)
-publicRoute.get('/verify/:uniqueString',ControllerPublic.verify)
-// publicRoute.post('/google-login', controllerCustomer.postLogin)
-// publicRoute.post('/linkedin-login', controllerCustomer.postLogin)
+publicRoute.get('/verify/:uniqueString', ControllerPublic.verify)
 
 // Create and fetch MyTemplates
 publicRoute.use(authenticationCustomer)
