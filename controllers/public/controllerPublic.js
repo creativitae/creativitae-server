@@ -54,10 +54,10 @@ class ControllerPublic {
       }
       user.isValid = true
       await user.save()
-      res.redirect(`http://localhost:3000/public/login`)
-      res.status(200).json({
-        msg : 'Success Register'
-      })
+      res.redirect(`http://localhost:5173/login`)
+      // res.status(200).json({
+      //   msg : 'Success Register'
+      // })
     } catch (error) {
       console.log(error);
     }
@@ -77,6 +77,7 @@ class ControllerPublic {
         };
         if(customer.isValid === false) {
           throw {
+            status : 400,
             msg : 'Not Verify'
           }
         }
@@ -93,7 +94,7 @@ class ControllerPublic {
         .status(200)
         .json({ access_token, id: customer.id, username: customer.username, email: customer.email, isPremium: customer.isPremium });
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       next(err);
     }
   }
