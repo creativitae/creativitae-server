@@ -8,6 +8,7 @@ const templateRoute = express.Router()
 
 templateRoute.get('/', ControllerPublic.getTemplate)
 templateRoute.post('/', authenticationAdmin, ControllerAdmin.createTemplate)
+templateRoute.post('/uploadCV', ControllerCustomer.base64ToCloud)
 templateRoute.use('/upload-images', authenticationCustomer,upload.array('image'),ControllerCustomer.uploadImage) // buat upload image ke cloudinary, nanti tambahin authen ya di y=taronya sebelum upload.array, ini buat coba jalan doang
 templateRoute.get('/:templateId', authenticationCustomer, ControllerCustomer.getTemplateById)
 templateRoute.put('/:templateId', authenticationAdmin, ControllerAdmin.editTemplate) 

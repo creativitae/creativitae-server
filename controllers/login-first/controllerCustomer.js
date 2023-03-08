@@ -17,6 +17,7 @@ const BASE_URL = 'http://localhost:5173'
 const fs = require('fs')
 const upload = require('../../helpers/multer')
 const cloudinary = require('../../helpers/cloudinary')
+const cloudinaries = require('cloudinary')
 
 class ControllerCustomer {
   static async getMyTemplate(req, res, next) {
@@ -280,7 +281,7 @@ class ControllerCustomer {
   static async getEMail(req, res, next) {
     try {
       let token = req.body.code
-      
+
       // console.log(token, 'ini token');
       // let { data } = await axios({
       //   method: 'get',
@@ -325,7 +326,7 @@ class ControllerCustomer {
           isPremium: false,
           phoneNumber: '0902930293',
           address: 'jl. aaaaa no.23',
-          isValid:false
+          isValid: false
         },
         hooks: false,
       });
@@ -365,6 +366,31 @@ class ControllerCustomer {
           message: 'images not uploaded'
         })
       }
+    } catch (error) {
+      console.log(error);
+      next(error)
+    }
+  }
+
+  static async base64ToCloud(req, res, next) {
+    try {
+      cloudinaries.config({
+        cloud_name: process.env.CLOUD_NAME,
+        api_key: process.env.CLOUDINARY_API_KEY,
+        api_secret: process.env.CLOUDINARY_API_SECRET,
+        secure: true
+      });
+      let baseImage = req.body.image
+      cloudinaries.v2.uploader.upload(baseImage,
+        {
+          folder: "CustCvDump",
+          width: 2480,
+          height: 3508 , 
+          crop: "scale",
+        },
+        function (error, result) {
+          res.status(200).json({url : result.url})
+        });
     } catch (error) {
       console.log(error);
       next(error)
