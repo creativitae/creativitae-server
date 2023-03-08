@@ -5,6 +5,10 @@
   "description": "server repo for creativitae app",
   "main": "index.js",
   "scripts": {
+<<<<<<< HEAD
+=======
+    "dev": "nodemon app.js",
+>>>>>>> 27dc5bb9a0ce850bcce24545926ea3a078f9f350
     "test": "jest --detectOpenHandles --forceExit --runInBand --coverage --silent",
     "start": "node bin/www"
   },
