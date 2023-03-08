@@ -84,10 +84,10 @@ class ControllerCustomer {
       let myTemplateData = await CustomerTemplate.create({
         CustomerId: req.customer.id,
         TemplateId: req.params.templateId,
+        cvImage: req.body.cvImage
       });
       res.status(201).json(myTemplateData);
     } catch (error) {
-      console.log(error)
       next(error);
     }
   }
@@ -104,10 +104,9 @@ class ControllerCustomer {
         { returning: true }
       );
       if (!TemplateData) throw {status: 404, msg: 'Template not found'}
-      deletedTemplate = TemplateData.name;
       // await CustomerTemplate.destroy({ where: { CustomerId: req.customer.id,
       //   TemplateId: req.params.templateId } });
-      res.status(200).json({ message: `${deletedTemplate} success to delete` });
+      res.status(200).json({ message: `Successfully delete` });
     } catch (error) {
       next(error);
     }
