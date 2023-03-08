@@ -23,6 +23,9 @@ function errorHandler(err, req, res, next) {
     }else if (err.name === 'Not Verify') {
         res.status(400).json({message :'Verify Your Acount'})
     }
+    else if (err.name === 'not found') {
+        res.status(401).json({message :'Not found'})
+    }
     else {
         console.log(err);
         res.status(500).json({ message: 'Internal server error' })

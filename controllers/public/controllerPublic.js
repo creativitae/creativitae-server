@@ -41,10 +41,10 @@ class ControllerPublic {
       next(err);
     }
   }
-  static async verify(req,res) {
+  static async verify(req,res,next) {
     try {
       const {uniqueString} = req.params
-      console.log(uniqueString);
+      // console.log(uniqueString);
       const user = await Customer.findOne({where : {uniqueString}})
       if(!user) {
         throw {
@@ -59,6 +59,7 @@ class ControllerPublic {
       //   msg : 'Success Register'
       // })
     } catch (error) {
+      next(error)
       console.log(error);
     }
   }
