@@ -46,11 +46,12 @@ class ControllerPublic {
       next(err);
     }
   }
-  static async verify(req, res) {
+  static async verify(req,res,next) {
     try {
-      const { uniqueString } = req.params;
-      const user = await Customer.findOne({ where: { uniqueString } });
-      if (!user) {
+      const {uniqueString} = req.params
+      // console.log(uniqueString);
+      const user = await Customer.findOne({where : {uniqueString}})
+      if(!user) {
         throw {
           status: 401,
           msg: "Customer not found",

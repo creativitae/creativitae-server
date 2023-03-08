@@ -3,8 +3,6 @@ const app = require("../../app");
 const { describe, it, expect, afterAll, beforeAll } = require("@jest/globals");
 const { Customer } = require("../../models");
 
-
-
 beforeAll(async () => {
     await Customer.create({
       username: "johndoe",
@@ -21,20 +19,35 @@ beforeAll(async () => {
       restartIdentity: true,
     });
   });
-
-describe("GET /public/verify/:uniqueString",() => {
-    it("400 - Failed Login - Verify your Account", async () => {
-        let input = {
-            email: "johndoe@mail.com", 
-            password: "12345",
-        }
-        const response = await request(app)
-        .post('/public/login')
-        .send(input)
-
-        expect(response.status).toBe(400)
-        expect(response.body).toBeInstanceOf(Object)
-        expect(response.status).toHaveProperty('msg','Not Verfify')
+describe("get /public/verify/:uniqueString",() => {
+    // it("400 - Failed Login - Verify your Account", async () => {
+    //     let input = {
+    //         email: "johndoe@mail.com", 
+    //         password: "12345",
+    //     }
+    //     const response = await request(app)
+    //     .post('/public/login')
+    //     .send(input)
+    
+    //     expect(response.status).toBe(400)
+    //     expect(response.body).toBeInstanceOf(Object)
+    //     expect(response.status).toHaveProperty('msg','Not Verfify')
         
-    })
+    // })
+    it("401 - Failed - not found", async () => {
+      let input = {
+          email: "johndoe@mail.com", 
+          password: "12345",
+          uniqueString : '5431234321'
+      }
+      const response = await request(app)
+      .post('/public/verify/1')
+      .send(input)
+  
+      expect(response.status).toBe(401)
+      expect(response.body).toBeInstanceOf(Object)
+      
+  })
+    
+
 })

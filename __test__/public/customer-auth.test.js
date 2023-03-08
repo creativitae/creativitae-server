@@ -253,4 +253,5 @@ describe("POST /public/login", () => {
     expect(response.status).toBe(400)
     expect(response.body).toMatchObject(expected)
   });
+
 });
