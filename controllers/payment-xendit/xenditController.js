@@ -21,6 +21,14 @@ const i = new Invoice(invoiceSpecificOptions);
 class xenditController {
   static async createTransaction(req, res, next) {
     try {
+      let totalReceipt = await Receipt.findAll({
+        where: {
+          CustomerId: req.customer.id,
+        },
+      });
+      if (totalReceipt.length)
+        throw { status: 400, msg: "You already have payment ongoing" };
+     
       let data = await i.createInvoice({
         externalID: `${req.customer.id}`,
         payerEmail: `${req.customer.email}`,
@@ -41,13 +49,6 @@ class xenditController {
         name: data.id,
         statusPayment: false,
       });
-      let totalReceipt = await Receipt.findAll({
-        where: {
-          CustomerId: req.customer.id,
-        },
-      });
-      if (totalReceipt.length)
-        throw { status: 400, msg: "You already have payment ongoing" };
       await Receipt.create({
         CustomerId: req.customer.id,
         OrderId: order.id,
