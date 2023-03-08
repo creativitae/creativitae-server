@@ -71,16 +71,15 @@ afterAll(async () => {
   });
 });
 describe("get /payment", () => {
-  it("should return 201 status code", async () => {
+  it("should return 400 status code", async () => {
     let access_token = createToken({
-      id: customer.id,
+      id: 1,
       email: customer.email,
     });
     const response = await request(app)
       .get("/payment")
       .set("access_token", access_token)
-    // expect(response.status).toBe(200);
-    // expect(response.body).toEqual(expect.any(Object))
-    expect(response.body).toMatchObject({})
+    expect(response.status).toBe(400);
+    expect(response.body).toEqual(expect.any(Object))
   });
 });

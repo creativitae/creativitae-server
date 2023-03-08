@@ -37,4 +37,15 @@ describe("post /users/linkedin-request-auth", () => {
         // expect(response.status).toBe(200);
         // expect(response.body).toEqual(expect.any(Object));
     });
+    it("should return 401 status code", async () => {
+        axios.post.mockRejectedValue(new Error('Request failed with status code 400'))
+        const response = await request(app).post("/users/linkedin-user-auth")
+            .set("Authorization", "Basic 86o3pfdquzum55:m0mOlmIFPVGwZLud")
+            .set("Content-Type", 'application/json')
+            .send()
+        console.log(response.data);
+        expect(response.status).toBe(400)
+        expect(response.body).toEqual({ message: "linkedin parameter is missing" })
+        // expect(response.body.email).toEqual((data.elements[0])['handle~'].emailAddress)
+    });
 })

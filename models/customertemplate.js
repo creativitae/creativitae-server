@@ -16,7 +16,8 @@ module.exports = (sequelize, DataTypes) => {
   }
   CustomerTemplate.init({
     CustomerId: DataTypes.INTEGER,
-    TemplateId: DataTypes.INTEGER
+    TemplateId: DataTypes.INTEGER,
+    cvImage: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'CustomerTemplate',

@@ -76,6 +76,7 @@ describe("post /public/mydetail", () => {
     });
     let myDetail = {
       fullName: "John Doe",
+      title: "not null",
       summary:
         "A game enthusiast with a passion for programming, especially in web development and mobile applications. Began my programming journey by finishing Hacktiv8 bootcamp as a full-stack web developer, having decided to leave my previous career in the banking industry to pursue what has been a lifelong passion, technology.",
       educations:
@@ -87,6 +88,8 @@ describe("post /public/mydetail", () => {
         '[{"name":"Backend","techs":[{"name":"Express"},{"name":"Sequelize"}]},{"name":"DepanSelesai","techs":[{"name":"React.js"},{"name":"Vue.js"}]}]',
       certifications:
         '[{"provider":"Udemy","title":"JavaScript algorithms and data structures","issuedOn":"Date","expirationDate":"Date","certificateLink":"https://google.com"}]',
+      portfolios: "not null",
+      socialMedias: "not null",
       CustomerId: 1,
     };
     const response = await request(app)

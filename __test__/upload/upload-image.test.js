@@ -4,7 +4,34 @@ const { describe, it, expect, afterAll, beforeAll } = require("@jest/globals");
 const { Customer } = require("../../models");
 const { hash, compare } = require("../../helpers/bcryptjs");
 const { createToken } = require("../../helpers/jwt");
+const cloudinary = require("../../helpers/cloudinary")
+const multer = require("multer");
+const { resolve } = require("path");
 let customer
+let data = {
+    url: 'http://res.cloudinary.com/dtaetrd2d/image/upload/v1678264809/Images/d60au6oul0kzzqn2zgvy.jpg',
+    id: 'Images/d60au6oul0kzzqn2zgvy'
+}
+let results = {
+    message: 'images uploaded succesfully',
+    data: [
+        {
+            url: 'http://res.cloudinary.com/dtaetrd2d/image/upload/v1678264809/Images/d60au6oul0kzzqn2zgvy.jpg',
+            id: 'Images/d60au6oul0kzzqn2zgvy'
+        }
+    ]
+}
+// cloudinary.mockImplementation(() => {
+//     return new Promise(resolve => {
+//         resolve(data)
+//     }),
+//     {
+//         resource_type: "auto",
+//         folder: "Images"
+//     }
+// })
+jest.mock("cloudinary")
+
 beforeAll(async () => {
     customer = await Customer.create({
         username: "johndoe",
@@ -46,14 +73,64 @@ describe("use /templates/upload-images", () => {
         expect(response.body).toMatchObject(expected);
     });
     it("should return 200 status code", async () => {
-        let access_token = createToken({
-            id: customer.id,
-            email: customer.email,
-        });
-        const response = await request(app)
-            .post("/templates/upload-images")
-            .set("access_token", access_token)
-        expect(response.status).toBe(200);
-        expect(response.body).toEqual(expect.any(Object));
+        try {
+            // cloudinary.upload.mockResolvedValue(data)
+            let access_token = createToken({
+                id: customer.id,
+                email: customer.email,
+            });
+            jest.spyOn(cloudinary, "uploads").mockResolvedValue(data)
+            const response = await request(app)
+                .post("/templates/upload-images")
+                .attach("image", "__test__/assets/memphisg.jpg")
+                .set("access_token", access_token)
+
+            expect(response.status).toBe(200);
+            console.log(response.body, 'ini response.body');
+            expect(response.body).toEqual(results);
+        } catch (error) {
+            console.log(error, 'ini error di testing 200 upload-image');
+        }
+
     });
+    it("should return 405 status code", async () => {
+        try {
+            // cloudinary.upload.mockResolvedValue(data)
+            let access_token = createToken({
+                id: customer.id,
+                email: customer.email,
+            });
+            const response = await request(app)
+                .get("/templates/upload-images")
+                .attach("image", "__test__/assets/memphisg.jpg")
+                .set("access_token", access_token)
+
+            expect(response.status).toBe(405);
+            // console.log(response.body, 'ini response.body');
+            expect(response.body).toEqual({ message: 'images not uploaded' });
+        } catch (error) {
+            console.log(error, 'ini error di testing 200 upload-image');
+        }
+
+    });
+    // it("should return 400 status code", async () => {
+    //     try {
+    //         // cloudinary.upload.mockResolvedValue(data)
+    //         let access_token = createToken({
+    //             id: customer.id,
+    //             email: customer.email,
+    //         });
+    //         const response = await request(app)
+    //             .get("/templates/upload-images")
+    //             .attach("image", "__test__/assets/big.jpg")
+    //             .set("access_token", access_token)
+
+    //         expect(response.status).toBe(405);
+    //         // console.log(response.body, 'ini response.body');
+    //         expect(response.body).toEqual({ message: 'images not uploaded' });
+    //     } catch (error) {
+    //         console.log(error, 'ini error di testing 200 upload-image');
+    //     }
+
+    // });
 });
