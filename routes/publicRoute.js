@@ -11,9 +11,10 @@ publicRoute.get('/verify/:uniqueString', ControllerPublic.verify)
 
 // Create and fetch MyTemplates
 publicRoute.use(authenticationCustomer)
+publicRoute.get('/mytemplates', ControllerCustomer.getMyTemplate)
 publicRoute.post('/mytemplates/:templateId', ControllerCustomer.createMyTemplate)
 publicRoute.get('/mytemplates/:templateId', ControllerCustomer.getTemplateById)
-publicRoute.get('/mytemplates', ControllerCustomer.getMyTemplate)
+publicRoute.delete('/mytemplates/:templateId', ControllerCustomer.deleteMyTemplate)
 
 // Create, fetch, edit CustomerDetail
 publicRoute.post('/mydetail', ControllerCustomer.createCustomerDetail)

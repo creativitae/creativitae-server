@@ -90,6 +90,27 @@ class ControllerCustomer {
       next(error);
     }
   }
+  static async deleteMyTemplate (req, res, next) {
+    let deletedTemplate;
+    try {
+      let TemplateData = await CustomerTemplate.findOne(
+        {
+          where: {
+            CustomerId: req.customer.id,
+            TemplateId: req.params.templateId,
+          },
+        },
+        { returning: true }
+      );
+      if (!TemplateData) throw {status: 404, msg: 'Template not found'}
+      deletedTemplate = TemplateData.name;
+      // await CustomerTemplate.destroy({ where: { CustomerId: req.customer.id,
+      //   TemplateId: req.params.templateId } });
+      res.status(200).json({ message: `${deletedTemplate} success to delete` });
+    } catch (error) {
+      next(error);
+    }
+  }
   // static async patchPremiumUser(req, res, next) {
 
   // }
@@ -335,7 +356,7 @@ class ControllerCustomer {
         email: created.email,
       });
       // console.log({ access_token, id: created.id, username: created.username, email: created.email });
-      res.status(200).json({ access_token, id: created.id, username: created.username, email: created.email, isPremium: created.isPremium });
+      res.status(200).json({ access_token, id: created.id, username: created.username, email: created.email, isPremium: created.isPremium, phoneNumber: created.phoneNumber, address: created.address });
 
     } catch (err) {
       console.log(err);
