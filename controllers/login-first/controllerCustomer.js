@@ -354,9 +354,11 @@ class ControllerCustomer {
         for (const file of files) {
           const { path } = file
           const newPath = await uploader(path)
+          console.log(newPath, 'ini new path');
           urls.push(newPath)
           fs.unlinkSync(path)
         }
+        console.log('kelar upload');
         res.status(200).json({
           message: 'images uploaded succesfully',
           data: urls
