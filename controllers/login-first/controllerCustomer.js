@@ -374,23 +374,24 @@ class ControllerCustomer {
 
   static async base64ToCloud(req, res, next) {
     try {
+      console.log('masuk di controller untuk base64');
       cloudinaries.config({
         cloud_name: process.env.CLOUD_NAME,
         api_key: process.env.CLOUDINARY_API_KEY,
         api_secret: process.env.CLOUDINARY_API_SECRET,
         secure: true
       });
+      console.log(req.body,'setalah confuig masih di controller');
       let baseImage = req.body.image
-      cloudinaries.v2.uploader.upload(baseImage,
+      const results = await cloudinaries.v2.uploader.upload(baseImage,
         {
           folder: "CustCvDump",
           width: 2480,
-          height: 3508 , 
+          height: 3508 ,
           crop: "scale",
-        },
-        function (error, result) {
-          res.status(200).json({url : result.url})
-        });
+        })
+        console.log(results, '<<< ini di controleer');
+      res.status(200).json({url : results.url});
     } catch (error) {
       console.log(error);
       next(error)
