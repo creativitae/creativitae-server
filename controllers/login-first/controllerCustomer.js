@@ -360,7 +360,6 @@ class ControllerCustomer {
       res.status(200).json({ access_token, id: created.id, username: created.username, email: created.email, isPremium: created.isPremium, phoneNumber: created.phoneNumber, address: created.address });
 
     } catch (err) {
-      console.log(err);
       next(err)
     }
   }
@@ -371,7 +370,6 @@ class ControllerCustomer {
       if (req.method == 'POST') {
         const urls = []
         const files = req.files
-        console.log(files);
         for (const file of files) {
           const { path } = file
           const newPath = await uploader(path)
