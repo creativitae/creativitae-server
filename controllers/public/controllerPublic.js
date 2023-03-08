@@ -49,7 +49,6 @@ class ControllerPublic {
   static async verify(req,res,next) {
     try {
       const {uniqueString} = req.params
-      // console.log(uniqueString);
       const user = await Customer.findOne({where : {uniqueString}})
       if(!user) {
         throw {

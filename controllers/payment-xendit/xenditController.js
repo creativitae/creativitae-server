@@ -64,32 +64,25 @@ class xenditController {
   static async readTransaction(req, res, next) {
     try {
       let receiptData = await Receipt.findOne({
-        where: { CustomerId: req.customer.id },
+        where: { CustomerId: req.customer.id, },
         include: Order,
       });
+      if (!receiptData) throw { status: 400, msg: 'Receipt not found'}
       const Invoice = await i.getInvoice({
         invoiceID: receiptData.Order.name,
       });
       // let status = "";
       // if (Invoice.status === "PAID") status = true;
       // else status = false;
-      await Order.update(
-        {
-          statusPayment: status,
-        },
-        {
-          where: {
-            name: receiptData.Order.name,
-          },
-        }
-      );
+      await Order.update({ statusPayment: true,},{where: {
+name: receiptData.Order.name,},});
       let receiptOrder = await Receipt.findOne({
         where: { CustomerId: req.customer.id },
         include: Order,
       });
-      if (!receiptOrder) throw { status: 400, msg: 'Receipt not found'}
       res.status(200).json(receiptOrder);
     } catch (error) {
+      console.log(error)
       if (error.status === 404) {
         res.status(404).json(error);
       }

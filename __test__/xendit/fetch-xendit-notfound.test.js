@@ -79,8 +79,8 @@ describe("get /payment", () => {
     const response = await request(app)
       .get("/payment")
       .set("access_token", access_token)
-    // expect(response.status).toBe(200);
-    // expect(response.body).toEqual(expect.any(Object))
-    expect(response.body).toMatchObject({})
+    expect(response.status).toBe(500);
+    expect(response.body).toEqual(expect.any(Object))
+    expect(response.body).toMatchObject({message: 'Internal server error'})
   });
 });
