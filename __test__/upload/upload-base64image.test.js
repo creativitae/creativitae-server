@@ -66,9 +66,8 @@ afterAll(async () => {
 
 
 describe("post /templates/uploadCV", () => {
-    it.only("should return 200 status code", async () => {
+    it("should return 200 status code", async () => {
         try {
-
             let body = {
                 image: 'data64:/png/askj'
             }
