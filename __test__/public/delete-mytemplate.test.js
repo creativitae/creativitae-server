@@ -61,6 +61,17 @@ describe("delete /public/mytemplates/1", () => {
     expect(response.status).toBe(200);
     expect(response.body).toEqual(expect.any(Object))
   });
+  it("should return 200 status code", async () => {
+    let access_token = createToken({
+      id: customer.id,
+      email: customer.email,
+    });
+    const response = await request(app)
+      .delete("/public/mytemplates/100")
+      .set("access_token", access_token);
+    expect(response.status).toBe(404);
+    expect(response.body).toEqual(expect.any(Object))
+  });
   it("should return 401 status code when customer not login", async () => {
     const response = await request(app)
       .delete("/public/mytemplates/1")

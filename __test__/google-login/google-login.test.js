@@ -21,7 +21,7 @@ afterAll(async () => {
   });
 });
 
-describe("POST /public/login", () => {
+describe("POST /google-login", () => {
   it("should return 200 status code if request body is valid", async () => {
     const response = await request(app)
       .post("/google-login")
