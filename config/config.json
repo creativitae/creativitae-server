@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "postgres",
+    "database": "cv-db",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "postgres",
+    "password": "postgres",
+    "database": "cv-db-test",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "postgres",
+    "password": "uYwNrMayAI6iJU7x",
+    "database": "postgres",
+    "host": "db.jzzjrnrulfgavksfqcbq.supabase.co",
+    "dialect": "postgres"
+  }
+}
